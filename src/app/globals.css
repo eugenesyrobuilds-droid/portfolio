@@ -2,26 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply text-ink-800 font-sans;
+    min-height: 100vh;
+    background:
+      linear-gradient(180deg, #C8D5CC 0%, #E4ECDF 28%, #FFFFFF 65%) no-repeat,
+      #FFFFFF;
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    @apply text-ink-900 font-heading;
+    font-weight: 700;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-narrow {
+    @apply max-w-prose-wide mx-auto px-6;
+  }
+  .container-wide {
+    @apply max-w-container mx-auto px-6;
+  }
+  .text-eyebrow {
+    @apply text-label uppercase text-accent-600 font-semibold;
+  }
+  .surface-card {
+    @apply bg-paper rounded-card shadow-card;
+  }
+  .surface-soft {
+    @apply bg-accent-50 rounded-card;
+  }
+  .pill {
+    @apply rounded-pill;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-pill bg-accent-50 text-accent-600 text-label uppercase px-3 py-1.5;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-pill bg-accent-500 hover:bg-accent-400 text-paper px-7 py-3.5 text-small font-semibold shadow-glow transition-colors;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-pill bg-paper text-ink-800 px-7 py-3.5 text-small font-medium border border-paper-edge hover:border-accent-500 hover:text-accent-600 transition-colors;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .accent-text-gradient {
+    background: linear-gradient(135deg, #3D6B57 0%, #5F9078 50%, #1F3D30 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .vignette-portrait {
+    box-shadow:
+      inset 0 0 70px 20px rgba(255, 255, 255, 0.35),
+      inset 0 -40px 80px -20px rgba(15, 23, 20, 0.18);
+  }
+  .fade-in {
+    animation: fadeIn 0.45s ease forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
