@@ -23,6 +23,7 @@ export type Dict = {
   };
   status: { production: string; regulatoryPending: string };
   footer: { built: string };
+  email: { copy: string; copied: string };
 };
 
 export const dict: Record<Locale, Dict> = {
@@ -55,6 +56,7 @@ export const dict: Record<Locale, Dict> = {
     footer: {
       built: "© 2026 Eugene Syromiatnikov. Built with Next.js + AI.",
     },
+    email: { copy: "Copy email", copied: "Copied" },
   },
   uk: {
     nav: { work: "Роботи", about: "Про мене", contact: "Контакти" },
@@ -85,6 +87,7 @@ export const dict: Record<Locale, Dict> = {
     footer: {
       built: "© 2026 Євген Сиром’ятников. Збудовано на Next.js + AI.",
     },
+    email: { copy: "Копіювати email", copied: "Скопійовано" },
   },
 };
 

@@ -2,6 +2,29 @@
 
 import Image from "next/image";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { useCopy } from "@/lib/useCopy";
+
+const EMAIL = "eugene.syro.builds@gmail.com";
+
+function InlineCopyEmail() {
+  const { copied, copy } = useCopy(EMAIL);
+  const { t } = useLocale();
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      aria-label={t.email.copy}
+      className="text-accent-600 hover:underline cursor-pointer"
+    >
+      {EMAIL}
+      {copied && (
+        <span className="ml-2 text-label uppercase text-accent-500">
+          · {t.email.copied}
+        </span>
+      )}
+    </button>
+  );
+}
 
 const copy = {
   en: {
@@ -41,8 +64,7 @@ const copy = {
         </p>
         <h2>How to reach me</h2>
         <p>
-          The fastest way is email —{" "}
-          <a href="mailto:eugene.syro.builds@gmail.com">eugene.syro.builds@gmail.com</a>. I respond within a day.
+          The fastest way is email — <InlineCopyEmail />. I respond within a day.
         </p>
       </>
     ),
@@ -83,8 +105,7 @@ const copy = {
         </p>
         <h2>Як зі мною звʼязатись</h2>
         <p>
-          Найшвидше — електронною поштою:{" "}
-          <a href="mailto:eugene.syro.builds@gmail.com">eugene.syro.builds@gmail.com</a>. Відповідаю протягом доби.
+          Найшвидше — електронною поштою: <InlineCopyEmail />. Відповідаю протягом доби.
         </p>
       </>
     ),

@@ -1,7 +1,8 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { Mail, Check } from "lucide-react";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { useCopy } from "@/lib/useCopy";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -18,6 +19,8 @@ function GithubIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+const EMAIL = "eugene.syro.builds@gmail.com";
 
 const copy = {
   en: {
@@ -45,8 +48,10 @@ const copy = {
 };
 
 export default function ContactContent() {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const c = copy[locale];
+  const { copied, copy: copyEmail } = useCopy(EMAIL);
+
   return (
     <div className="container-wide max-w-prose-narrow py-section">
       <span className="chip mb-4">{c.eyebrow}</span>
@@ -60,20 +65,28 @@ export default function ContactContent() {
       <p className="text-body-lg text-ink-700 mb-12">{c.lede}</p>
 
       <div className="space-y-4">
-        <a
-          href="mailto:eugene.syro.builds@gmail.com"
-          className="flex items-center gap-5 p-5 bg-paper rounded-card shadow-soft hover:shadow-card transition-shadow group"
+        <button
+          type="button"
+          onClick={copyEmail}
+          aria-label={t.email.copy}
+          className="w-full text-left flex items-center gap-5 p-5 bg-paper rounded-card shadow-soft hover:shadow-card transition-shadow group"
         >
           <span className="w-11 h-11 rounded-full bg-accent-50 flex items-center justify-center shrink-0">
-            <Mail className="w-5 h-5 text-accent-500" />
+            {copied ? (
+              <Check className="w-5 h-5 text-accent-500" />
+            ) : (
+              <Mail className="w-5 h-5 text-accent-500" />
+            )}
           </span>
           <div className="flex-1">
-            <p className="text-label uppercase text-ink-500 mb-1">{c.emailLabel}</p>
+            <p className="text-label uppercase text-ink-500 mb-1">
+              {copied ? t.email.copied : c.emailLabel}
+            </p>
             <p className="text-body text-ink-900 group-hover:text-accent-600 transition-colors">
-              eugene.syro.builds@gmail.com
+              {EMAIL}
             </p>
           </div>
-        </a>
+        </button>
 
         <a
           href="https://www.linkedin.com/in/eugene-siromyatnikov/"
