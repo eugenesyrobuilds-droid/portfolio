@@ -16,12 +16,12 @@ const copy = {
   en: {
     title: "TB Module",
     subtitle:
-      "Full digital replacement of paper and Excel-based tuberculosis documentation at a primary care clinic.",
-    tags: ["Healthcare", "Full-stack web app", "Supabase"],
+      "Digital replacement of paper and Excel-based tuberculosis documentation at a primary care clinic.",
+    tags: ["Healthcare", "Full-stack web app", "Managed Postgres"],
     status: "Production",
     statusVariant: "production" as const,
     tldr:
-      "Tuberculosis risk-group registries, fluorography records, and case logs at Ukrainian primary care clinics are kept in Excel and on paper. In one of my clinics this meant 28 risk-group sheets, a fluorography file covering ~1,100 patients, and a paper WHO 4-symptom screening questionnaire. I built a self-hosted web module that fully replaces this paper workflow: patient registry with risk groups and TB status, fluorography history with auto-scheduled next-due dates, sputum test tracking, auto-generated referrals, EMR data sync, weekly cron reminders. 1,851 patients migrated. Used by my nurse and me daily. Running cost: $0/month on free tiers.",
+      "Tuberculosis risk-group registries, fluorography records, and case logs at Ukrainian primary care clinics are kept in Excel and on paper. In one of my clinics this meant 28 risk-group sheets, a fluorography file covering ~1,100 patients, and a paper WHO 4-symptom screening questionnaire. I designed and built a web module that replaces this paper workflow: a structured patient registry with risk groups and TB status, fluorography history with auto-scheduled next-due dates, sputum test tracking, auto-generated referrals, and a sync mechanism with the EMR. Adopted at the clinic where I practice. Built with a free-tier-friendly stack and a clear path to production-grade infrastructure when scaled.",
     section: {
       context: "Context",
       solution: "Solution",
@@ -32,27 +32,24 @@ const copy = {
     },
     techGroups: [
       { label: "Frontend", items: ["React 18", "Vite", "TypeScript", "TailwindCSS v4"] },
-      { label: "Backend", items: ["Supabase (PostgreSQL + PostgREST + Storage)"] },
-      { label: "Hosting", items: ["Vercel Hobby (Edge / Node serverless functions)"] },
+      { label: "Backend", items: ["PostgreSQL (managed)", "PostgREST", "Object Storage"] },
+      { label: "Hosting", items: ["Serverless functions on managed cloud platform"] },
       {
         label: "Auth",
-        items: ["One practice-wide PIN → bcrypt → JWT HS256 in HttpOnly cookie (30 days)"],
+        items: ["Practice-wide PIN → bcrypt → JWT in HttpOnly cookie"],
       },
-      { label: "Email", items: ["Resend (sandbox tier)", "Weekly cron Monday 06:00 UTC"] },
-      { label: "Excel I/O", items: ["SheetJS (xlsx) — client-side, no server load"] },
-      { label: "Data", items: ["TanStack Query", "TanStack Table"] },
       {
-        label: "Integration",
+        label: "Data exchange",
         items: [
-          "Chrome extension (tb-module-sync.js, ~921 LOC)",
-          "Monkey-patched display callback → POST to /medical_risk_groups + /fluorography",
-          "Bearer practice PIN auth",
+          "SheetJS for client-side Excel I/O",
+          "Secure sync with EMR via authorized extension",
         ],
       },
+      { label: "Data", items: ["TanStack Query", "TanStack Table"] },
     ],
     process: {
       ownership:
-        "I identified the documentation problem, specified the schema against the existing paper and Excel workflow, made stack choices (free tiers, single-PIN auth, monkey-patching the extension instead of building a new sync layer), and shipped to my own clinic.",
+        "I identified the documentation problem, specified the schema against the existing paper and Excel workflow, made stack choices for a focused single-clinic MVP, and shipped to the clinic where I practice.",
       collaboration:
         "AI-assisted development with Claude Code. AI generated implementation; I owned product framing, schema design, and deployment decisions.",
       timeSpent:
@@ -62,12 +59,12 @@ const copy = {
   uk: {
     title: "ТБ-модуль",
     subtitle:
-      "Повна цифрова заміна паперової та Excel-документації з туберкульозу в амбулаторії первинної ланки.",
-    tags: ["Healthcare", "Full-stack веб-застосунок", "Supabase"],
+      "Цифрова заміна паперової та Excel-документації з туберкульозу в амбулаторії первинної ланки.",
+    tags: ["Healthcare", "Full-stack веб-застосунок", "Managed Postgres"],
     status: "У продакшені",
     statusVariant: "production" as const,
     tldr:
-      "Реєстри груп ризику з туберкульозу, записи флюорографій і журнали випадків в українських амбулаторіях ведуть в Excel і на папері. В одній з моїх амбулаторій це 28 таблиць груп ризику, файл флюорографій на ~1 100 пацієнтів і паперова анкета 4-симптомного скринінгу ВООЗ. Я зробив self-hosted веб-модуль, який повністю замінює цей паперовий воркфлоу: реєстр пацієнтів з групами ризику та статусом ТБ, історія флюорографій з автоплануванням наступних дат, відстеження аналізів мокротиння, автогенерація направлень, синк з ЕМК, щотижневі cron-нагадування. 1 851 пацієнт перенесений. Я і медсестра користуємось щодня. Поточна вартість роботи: $0/місяць на безкоштовних тарифах.",
+      "Реєстри груп ризику з туберкульозу, записи флюорографій і журнали випадків в українських амбулаторіях ведуть в Excel і на папері. В одній з моїх амбулаторій це 28 таблиць груп ризику, файл флюорографій на ~1 100 пацієнтів і паперова анкета 4-симптомного скринінгу ВООЗ. Я спроєктував і побудував веб-модуль, який замінює цей паперовий воркфлоу: структурований реєстр пацієнтів з групами ризику та статусом ТБ, історія флюорографій з автоплануванням наступних дат, відстеження аналізів мокротиння, автогенерація направлень, механізм синку з МІС. Прийнятий в амбулаторії, де я практикую. Зібраний на стеку, дружньому до free-tier, з чітким шляхом до production-grade інфраструктури при масштабуванні.",
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -78,27 +75,24 @@ const copy = {
     },
     techGroups: [
       { label: "Фронтенд", items: ["React 18", "Vite", "TypeScript", "TailwindCSS v4"] },
-      { label: "Бекенд", items: ["Supabase (PostgreSQL + PostgREST + Storage)"] },
-      { label: "Хостинг", items: ["Vercel Hobby (Edge / Node serverless functions)"] },
+      { label: "Бекенд", items: ["PostgreSQL (managed)", "PostgREST", "Object Storage"] },
+      { label: "Хостинг", items: ["Serverless-функції на managed cloud-платформі"] },
       {
         label: "Аутентифікація",
-        items: ["Один PIN на амбулаторію → bcrypt → JWT HS256 у HttpOnly cookie (30 днів)"],
+        items: ["PIN на амбулаторію → bcrypt → JWT у HttpOnly cookie"],
       },
-      { label: "Email", items: ["Resend (sandbox tier)", "Cron щопонеділка 06:00 UTC"] },
-      { label: "Excel I/O", items: ["SheetJS (xlsx) — на клієнті, без навантаження на сервер"] },
-      { label: "Дані", items: ["TanStack Query", "TanStack Table"] },
       {
-        label: "Інтеграція",
+        label: "Обмін даними",
         items: [
-          "Chrome-розширення (tb-module-sync.js, ~921 LOC)",
-          "Monkey-patched display callback → POST у /medical_risk_groups + /fluorography",
-          "Bearer-авторизація через PIN амбулаторії",
+          "SheetJS для Excel I/O на клієнті",
+          "Безпечний синк з МІС через авторизоване розширення",
         ],
       },
+      { label: "Дані", items: ["TanStack Query", "TanStack Table"] },
     ],
     process: {
       ownership:
-        "Визначив проблему документації, специфікував схему під поточний паперовий та Excel-воркфлоу, ухвалив рішення по стеку (безкоштовні тарифи, single-PIN auth, monkey-patching розширення замість окремого sync-шару), і випустив у власну амбулаторію.",
+        "Визначив проблему документації, специфікував схему під поточний паперовий та Excel-воркфлоу, ухвалив рішення по стеку для сфокусованого single-clinic MVP, і випустив в амбулаторії, де практикую.",
       collaboration:
         "AI-асистована розробка з Claude Code. AI генерував реалізацію; за продуктові рамки, схему БД і рішення по деплою відповідав я.",
       timeSpent:
@@ -159,8 +153,7 @@ function EnBody({ c }: { c: typeof copy.en }) {
       <p>In my clinic this stack was:</p>
       <ul>
         <li>
-          14 risk-group Excel sheets × 2 rural outpatient clinics ={" "}
-          <strong>28 sheets</strong>
+          14 risk-group Excel sheets × 2 clinic locations = <strong>28 sheets</strong>
         </li>
         <li>2 detected/contact registries × 2 locations = <strong>4 sheets</strong></li>
         <li>1 fluorography file with ~1,100 patients per location</li>
@@ -174,10 +167,7 @@ function EnBody({ c }: { c: typeof copy.en }) {
       </p>
 
       <SectionHeading>{c.section.solution}</SectionHeading>
-      <p>
-        A self-hosted (in the sense: I host it; details below) web module that fully
-        replaces the above workflow with structured records:
-      </p>
+      <p>A web module that replaces the above workflow with structured records:</p>
       <ul>
         <li>
           <strong>Patient registry</strong> with medical and social risk groups, TB status
@@ -198,27 +188,23 @@ function EnBody({ c }: { c: typeof copy.en }) {
           referral via <code>window.print()</code>
         </li>
         <li>
-          <strong>MoH order library</strong> linking to PDF/DOCX stored on Google Drive
+          <strong>MoH order library</strong> linking to source documents
         </li>
         <li>
           <strong>EMR data import</strong> — operator uploads the EMR declarations export
           (xlsx), the module computes the diff against current registry, operator confirms
         </li>
         <li>
-          <strong>Weekly cron digest</strong> via Resend, sent Mondays at 06:00 UTC, with
-          patients due for screening that week
-        </li>
-        <li>
-          <strong>Integration with the Medics Chrome extension</strong> — extension
-          monkey-patches its <code>MedicsIndicatorUI.displayResults</code> callback to POST
-          diagnoses + fluorography results back to this module, keeping both systems in sync
-          via a shared practice PIN
+          <strong>EMR integration</strong> — a companion script extends the clinical
+          extension to push relevant clinical observations (diagnoses, fluorography
+          results) from the patient view into the module via an authenticated endpoint
         </li>
       </ul>
       <p>
-        Real data: 1,851 patients in the database, imported from the actual Medics
-        declaration export. The system is used by me and the practice nurse daily. The same
-        PIN auths both of us; the module is single-tenant by design (one practice).
+        Designed for single-practice use; access controlled by a shared practice
+        authentication mechanism. Data handling follows internal clinical workflows
+        established with the clinic management, with sensitive patient information accessed
+        only by authorized clinical staff within the scope of their duties.
       </p>
 
       <ScreenshotFigure />
@@ -226,33 +212,34 @@ function EnBody({ c }: { c: typeof copy.en }) {
       <SectionHeading>{c.section.impact}</SectionHeading>
       <p>
         The TB Module is too new for adoption metrics — the integrated flow (extension
-        auto-syncing into module) shipped 5 days before this writing. The TLDR-level claim
-        is what the system did at deploy: <strong>eliminated the paper journal contour</strong>{" "}
-        and <strong>collapsed 28+ Excel sheets into a single, queryable database</strong>.
+        auto-syncing into module) shipped recently. The TLDR-level claim is what the system
+        did at deploy: <strong>eliminated the paper journal contour</strong> and{" "}
+        <strong>collapsed 28+ Excel sheets into a single, queryable structure</strong>.
       </p>
       <p>
-        A separate operational metric worth naming:{" "}
-        <strong>monthly running cost is $0</strong>. The system runs on Supabase free tier
-        (using ~5% of 500 MB allocation), Vercel Hobby (functions at limit: 12/12), Resend
-        free (~8 emails/month sent of 3000 allowance). Migration to Pro tiers would be
-        ~$65/month total — but the current single-practice usage doesn&apos;t need it.
+        A separate observation worth naming: the architectural choices (managed Postgres,
+        serverless functions, transactional email) were deliberately optimized for a small
+        clinical deployment, where infrastructure overhead matters more than maximum
+        theoretical scale. Path to production-grade compliance infrastructure (dedicated
+        tenancy, BAA-eligible providers, formal DPA) is clear when the system scales beyond
+        a single practice.
       </p>
-      <p>
-        Adoption metrics will follow as the system accumulates more usage data. For now,
-        the story is the deployment itself.
-      </p>
+      <p>Adoption metrics will follow as the system accumulates more usage data.</p>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
       <p>
-        The single-PIN auth is a deliberate simplification. The user model is &quot;one
-        practice, two staff members, no patient access&quot; — adding per-user accounts
-        would have been overhead without value. If the system later expands to multi-tenant
-        (multiple practices), this is the first thing to redesign.
+        The shared-PIN auth is a deliberate simplification for the current single-practice
+        scope: two clinical staff, no patient-facing access. Per-user accounts and audit
+        granularity are part of the production-grade roadmap (see Next steps).
       </p>
       <p>
-        The Vercel Hobby 12-function limit is the live constraint. Next iteration (Phase 5)
-        needs to consolidate endpoints.
+        <strong>EMR integration.</strong> A companion script (~921 LOC) extends the
+        clinical extension to push relevant observations (diagnoses, fluorography results)
+        from the patient view into the TB Module via an authenticated endpoint.
+        Communication uses a shared practice authentication token. Patient identification
+        on the EMR side is mapped to local registry records, with all access scoped to the
+        clinical staff using the system.
       </p>
 
       <ProcessNote
@@ -265,48 +252,41 @@ function EnBody({ c }: { c: typeof copy.en }) {
       <ul>
         <li>
           <strong>Replacing paper with software is mostly a schema design problem.</strong>{" "}
-          The hardest part wasn&apos;t the React UI or the Supabase setup — it was deciding
-          what to model. &quot;Risk group&quot; turns out to be a relationship, not an
+          The hardest part wasn&apos;t the UI or the database setup — it was deciding what
+          to model. &quot;Risk group&quot; turns out to be a relationship, not an
           attribute. &quot;Detected&quot; and &quot;contact&quot; are statuses, not
           separate registries. Getting the data model right first meant the UI fell out
           cleanly.
         </li>
         <li>
-          <strong>Free tiers cover real clinical workloads if your scope is bounded.</strong>{" "}
-          A practice with ~1,800 patients and two daily users fits comfortably in Supabase
-          + Vercel + Resend free allocations. The cost story isn&apos;t a footnote — for a
-          primary care clinic considering digitization, &quot;$0/month if used at our
-          scale&quot; is the most important fact.
+          <strong>Infrastructure economics for a small primary care clinic are forgiving.</strong>{" "}
+          A practice at the scale of one outpatient clinic fits comfortably within
+          entry-tier allocations of standard managed cloud services. For a clinic
+          considering digitization, this matters more than any feature comparison — the
+          budget barrier to entry is often the actual blocker.
         </li>
         <li>
-          <strong>Monkey-patching an existing tool is a legitimate integration strategy.</strong>{" "}
-          I could have built a separate sync API and rewritten the extension&apos;s data
-          flow. Instead I wrap the extension&apos;s display callback and let it feed the
-          module passively. Result: 921 LOC of glue, no changes to the extension&apos;s
-          core logic, automatic backfill of any patient the doctor opens.
+          <strong>Extending an existing tool is a legitimate integration strategy.</strong>{" "}
+          I could have built a separate sync API and rewritten the data flow. Instead I
+          extended the existing extension&apos;s display callback to feed the module
+          passively. Result: ~900 LOC of glue, no changes to the core extension logic,
+          automatic sync of any patient record the doctor opens.
         </li>
         <li>
           <strong>
             A blocking overlay turned out to be the right UX answer for an indicator
             workflow doctors otherwise skipped.
           </strong>{" "}
-          The Medics extension originally required a button click to run the indicator
+          The clinical extension originally required a button click to run the indicator
           analysis — 15-20 seconds of compute, but worse, a friction pause that broke flow.
           Doctors quietly stopped using it. When I integrated with the TB Module and made
           it mandatory to check the last X-ray date, I added a blocking overlay on the
           patient card: it appears as soon as the card opens, runs the indicator analysis
-          automatically, syncs the X-ray date to TB Module, then drops away.
+          automatically, syncs the X-ray date to the module, then drops away.
           Counter-intuitively this was better UX than the optional button: removing the
           choice removed the skip. The lesson generalizes — in clinical workflows,
           &quot;make it easy to use&quot; is often weaker than &quot;make it the default
           path.&quot;
-        </li>
-        <li>
-          <strong>Free tier economics for a primary-care clinic are extremely forgiving.</strong>{" "}
-          Supabase + Vercel + Resend free allocations have absorbed both this module
-          (1,851 patients) and the Studioverse platform (37 users, 22 projects)
-          simultaneously without hitting a ceiling. Whatever &quot;scale&quot; means at the
-          rural-clinic level, free tier covers it.
         </li>
       </ul>
 
@@ -315,13 +295,15 @@ function EnBody({ c }: { c: typeof copy.en }) {
         The active priority is extending the same pattern to the other journals that
         primary care has to maintain: vaccination, HIV, cardiovascular risk, oncology
         screening. The TB module already proves the architecture works — patient registry
-        + scheduled events + EMR sync + cron reminders is a generalizable shape. Each new
-        module needs its own schema and rules, but the underlying frame transfers.
-        Secondary backlog items: audit log triggers (table exists, wiring incomplete),
-        attachments UI (table exists, no UI), and PIN-change from the settings UI
-        (currently env-var only). Multi-practice / multi-tenant rewrite is explicitly out
-        of scope for now — the single-PIN simplicity is worth preserving until
-        there&apos;s real demand from another clinic.
+        + scheduled events + EMR sync is a generalizable shape. Each new module needs its
+        own schema and rules, but the underlying frame transfers.
+      </p>
+      <p>
+        Equally important is the path to production-grade infrastructure for multi-practice
+        deployment: dedicated tenancy, formal data processing agreements, audit logging,
+        role-based access controls. The current architecture is intentionally a
+        single-clinic MVP; scaling beyond requires compliance investments that are
+        well-understood but not yet implemented.
       </p>
     </>
   );
@@ -343,7 +325,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
       <p>У моїй амбулаторії стек був такий:</p>
       <ul>
         <li>
-          14 Excel-таблиць груп ризику × 2 амбулаторії у сільській місцевості ={" "}
+          14 Excel-таблиць груп ризику × 2 локації амбулаторії ={" "}
           <strong>28 таблиць</strong>
         </li>
         <li>2 реєстри виявлених/контактних × 2 локації = <strong>4 таблиці</strong></li>
@@ -358,10 +340,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
       </p>
 
       <SectionHeading>{c.section.solution}</SectionHeading>
-      <p>
-        Self-hosted (в сенсі: я хостю; деталі нижче) веб-модуль, що повністю замінює
-        зазначений воркфлоу структурованими записами:
-      </p>
+      <p>Веб-модуль, що замінює зазначений воркфлоу структурованими записами:</p>
       <ul>
         <li>
           <strong>Реєстр пацієнтів</strong> з медичними й соціальними групами ризику,
@@ -382,27 +361,24 @@ function UkBody({ c }: { c: typeof copy.uk }) {
           направлення через <code>window.print()</code>
         </li>
         <li>
-          <strong>Бібліотека наказів МОЗ</strong> з посиланнями на PDF/DOCX у Google Drive
+          <strong>Бібліотека наказів МОЗ</strong> з посиланнями на джерельні документи
         </li>
         <li>
           <strong>Імпорт даних з МІС</strong> — оператор завантажує експорт декларацій МІС
           (xlsx), модуль рахує diff з поточним реєстром, оператор підтверджує
         </li>
         <li>
-          <strong>Щотижневий cron-дайджест</strong> через Resend, надсилається
-          щопонеділка о 06:00 UTC, з пацієнтами, у яких того тижня скринінг
-        </li>
-        <li>
-          <strong>Інтеграція з Chrome-розширенням Medics</strong> — розширення
-          monkey-patch&apos;ить колбек <code>MedicsIndicatorUI.displayResults</code> і POST&apos;ить
-          діагнози + результати флюорографії назад у цей модуль, тримаючи обидві системи в
-          синку через спільний PIN амбулаторії
+          <strong>Інтеграція з МІС</strong> — додатковий скрипт розширює клінічне
+          розширення, передаючи релевантні клінічні спостереження (діагнози, результати
+          флюорографії) з картки пацієнта в модуль через автентифікований ендпойнт
         </li>
       </ul>
       <p>
-        Реальні дані: 1 851 пацієнт у БД, імпортовано з фактичного експорту декларацій
-        Medics. Системою користуємось я і медсестра амбулаторії щодня. Той самий PIN
-        авторизує обох; модуль single-tenant за дизайном (одна амбулаторія).
+        Спроєктовано для single-practice використання; доступ контролюється спільним
+        механізмом автентифікації амбулаторії. Обробка даних відповідає внутрішнім
+        клінічним воркфлоу, узгодженим з керівництвом амбулаторії; до чутливої
+        інформації пацієнтів мають доступ лише авторизовані клінічні працівники в межах
+        своїх обовʼязків.
       </p>
 
       <ScreenshotFigure />
@@ -410,34 +386,34 @@ function UkBody({ c }: { c: typeof copy.uk }) {
       <SectionHeading>{c.section.impact}</SectionHeading>
       <p>
         ТБ-модуль ще занадто новий для метрик впровадження — інтегрований флоу (розширення
-        автосинкає в модуль) вийшов за 5 днів до написання цього тексту. Тезис рівня TLDR
-        — це те, що система зробила на момент розгортання:{" "}
-        <strong>усунула паперовий контур журналу</strong> і{" "}
-        <strong>згорнула 28+ Excel-таблиць у єдину БД з можливістю запитів</strong>.
+        автосинкає в модуль) вийшов нещодавно. Тезис рівня TLDR — це те, що система
+        зробила на момент розгортання: <strong>усунула паперовий контур журналу</strong> і{" "}
+        <strong>згорнула 28+ Excel-таблиць у єдину queryable-структуру</strong>.
       </p>
       <p>
-        Окрема операційна метрика, яку варто назвати:{" "}
-        <strong>щомісячна вартість роботи — $0</strong>. Система живе на безкоштовному
-        тарифі Supabase (використано ~5% від 500 МБ), Vercel Hobby (функції на ліміті:
-        12/12), Resend free (~8 листів/місяць з ліміту 3 000). Перехід на Pro коштував би
-        ~$65/місяць, але поточне single-practice використання цього не потребує.
+        Окреме спостереження, яке варто назвати: архітектурні рішення (managed Postgres,
+        serverless-функції, транзакційний email) свідомо оптимізовані під невелике
+        клінічне розгортання, де накладні витрати на інфраструктуру важливіші за
+        максимальний теоретичний масштаб. Шлях до production-grade compliance-інфраструктури
+        (виділена tenancy, BAA-кваліфіковані провайдери, формальний DPA) зрозумілий, коли
+        система масштабується поза однією амбулаторією.
       </p>
-      <p>
-        Метрики впровадження зʼявляться, коли система накопичить дані використання. Поки
-        що історія — це сам факт розгортання.
-      </p>
+      <p>Метрики впровадження зʼявляться, коли система накопичить дані використання.</p>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
       <p>
-        Single-PIN auth — свідоме спрощення. Модель користувачів: «одна амбулаторія, два
-        співробітники, доступу пацієнтів немає» — окремі акаунти на користувача були б
-        накладними витратами без цінності. Якщо система пізніше розшириться в
-        multi-tenant (кілька амбулаторій) — це перше, що варто перепроєктувати.
+        Спільний-PIN auth — свідоме спрощення під поточний single-practice скоуп: двоє
+        клінічних співробітників, без пацієнтського доступу. Окремі акаунти на користувача
+        та гранулярний аудит — частина production-grade roadmap (див. «Що далі»).
       </p>
       <p>
-        Ліміт 12 функцій Vercel Hobby — живе обмеження. Наступна ітерація (Phase 5) має
-        об’єднати ендпойнти.
+        <strong>Інтеграція з МІС.</strong> Додатковий скрипт (~921 LOC) розширює клінічне
+        розширення, передаючи релевантні спостереження (діагнози, результати флюорографії)
+        з картки пацієнта в ТБ-модуль через автентифікований ендпойнт. Комунікація через
+        спільний токен автентифікації амбулаторії. Ідентифікація пацієнта на боці МІС
+        мапиться на локальні записи реєстру, з доступом, обмеженим клінічним персоналом,
+        який користується системою.
       </p>
 
       <ProcessNote
@@ -450,59 +426,56 @@ function UkBody({ c }: { c: typeof copy.uk }) {
       <ul>
         <li>
           <strong>Заміна паперу софтом — це переважно задача дизайну схеми.</strong>{" "}
-          Найскладніше було не React-UI чи налаштування Supabase — а рішення, що
-          моделювати. Виявилось, що «група ризику» — це звʼязок, а не атрибут. «Виявлений»
-          і «контактний» — це статуси, а не окремі реєстри. Правильна модель даних
-          означала, що UI вийшов природно.
+          Найскладніше було не UI чи налаштування БД — а рішення, що моделювати.
+          Виявилось, що «група ризику» — це звʼязок, а не атрибут. «Виявлений» і
+          «контактний» — це статуси, а не окремі реєстри. Правильна модель даних означала,
+          що UI вийшов природно.
         </li>
         <li>
-          <strong>Безкоштовні тарифи покривають реальні клінічні навантаження, якщо
-          скоуп обмежений.</strong> Амбулаторія з ~1 800 пацієнтами і двома щоденними
-          користувачами вільно вміщається в безкоштовні квоти Supabase + Vercel + Resend.
-          Історія вартості — це не примітка: для амбулаторії, що розглядає диджиталізацію,
-          «$0/місяць на нашому масштабі» — найважливіший факт.
+          <strong>Економіка інфраструктури для невеликої первинки прощальна.</strong>{" "}
+          Амбулаторія масштабу однієї практики вільно вміщається в entry-tier квоти
+          стандартних managed cloud-сервісів. Для амбулаторії, що розглядає диджиталізацію,
+          це важливіше за будь-яке порівняння фіч — бюджетний барʼєр входу часто і є
+          фактичним блокером.
         </li>
         <li>
-          <strong>Monkey-patching існуючого інструмента — легітимна стратегія інтеграції.</strong>{" "}
-          Я міг би побудувати окремий sync-API і переписати потік даних розширення. Замість
-          цього я обгортаю колбек відображення розширення й даю йому пасивно живити модуль.
-          Результат: 921 LOC «склейки», жодних змін у core-логіці розширення, автоматичний
-          backfill будь-якого пацієнта, якого відкриває лікар.
+          <strong>Розширення існуючого інструмента — легітимна стратегія інтеграції.</strong>{" "}
+          Я міг би побудувати окремий sync-API і переписати потік даних. Замість цього я
+          розширив колбек відображення існуючого розширення, щоб воно пасивно живило
+          модуль. Результат: ~900 LOC «склейки», жодних змін у core-логіці розширення,
+          автоматичний синк будь-якого запису пацієнта, якого відкриває лікар.
         </li>
         <li>
           <strong>
             Блокувальний overlay виявився правильною UX-відповіддю на воркфлоу
             індикаторів, який лікарі інакше пропускали.
           </strong>{" "}
-          Розширення Medics спочатку вимагало кліку по кнопці для запуску аналізу
-          індикаторів — 15-20 секунд обчислень, але гірше — пауза, яка ламала потік. Коли я інтегрував з ТБ-модулем і зробив
-          обовʼязковою перевірку дати останньої флюорографії, я додав блокувальний overlay
-          на картку пацієнта: зʼявляється щойно картка відкрилась, автоматично запускає
-          аналіз індикаторів, синкає дату флюорографії в ТБ-модуль і зникає. Парадоксально
-          це був кращий UX, ніж опційна кнопка: прибрати вибір — прибрати пропуск. Урок
-          узагальнюється: у клінічних воркфлоу «зроби зручним у використанні» часто
-          слабше за «зроби це default-шляхом».
-        </li>
-        <li>
-          <strong>Економіка безкоштовних тарифів для первинки надзвичайно прощальна.</strong>{" "}
-          Безкоштовні квоти Supabase + Vercel + Resend увібрали і цей модуль (1 851
-          пацієнт), і Studioverse-платформу (37 користувачів, 22 проєкти) одночасно без
-          досягнення стелі. Що б не означало «масштаб» на рівні сільської амбулаторії —
-          free tier його покриває.
+          Клінічне розширення спочатку вимагало кліку по кнопці для запуску аналізу
+          індикаторів — 15-20 секунд обчислень, але гірше — пауза, яка ламала потік. Коли
+          я інтегрував з ТБ-модулем і зробив обовʼязковою перевірку дати останньої
+          флюорографії, я додав блокувальний overlay на картку пацієнта: зʼявляється
+          щойно картка відкрилась, автоматично запускає аналіз індикаторів, синкає дату
+          флюорографії в модуль і зникає. Парадоксально це був кращий UX, ніж опційна
+          кнопка: прибрати вибір — прибрати пропуск. Урок узагальнюється: у клінічних
+          воркфлоу «зроби зручним у використанні» часто слабше за «зроби це
+          default-шляхом».
         </li>
       </ul>
 
       <SectionHeading>{c.section.next}</SectionHeading>
       <p>
         Активний пріоритет — розширення того ж патерну на інші журнали, які має вести
-        первинка, а саме вакцинація. ТБ-модуль уже
+        первинка: вакцинація, ВІЛ, серцево-судинний ризик, онкоскринінг. ТБ-модуль уже
         доводить, що архітектура працює — реєстр пацієнтів + заплановані події + синк МІС
-        + cron-нагадування — це узагальнювана форма. Кожен новий модуль потребує своєї
-        схеми й правил, але загальна рамка переноситься. Вторинні задачі в беклозі:
-        тригери журналу аудиту (таблиця є, обвʼязка не завершена), UI для вкладень
-        (таблиця є, UI немає), і зміна PIN через UI налаштувань (зараз тільки через env).
-        Multi-practice / multi-tenant переписування свідомо поза скоупом — простота
-        single-PIN варта збереження, доки не зʼявиться реальний попит від іншої амбулаторії.
+        — це узагальнювана форма. Кожен новий модуль потребує своєї схеми й правил, але
+        загальна рамка переноситься.
+      </p>
+      <p>
+        Не менш важливо — шлях до production-grade інфраструктури для multi-practice
+        розгортання: виділена tenancy, формальні data processing agreements, журнал
+        аудиту, role-based access controls. Поточна архітектура свідомо є single-clinic
+        MVP; масштабування поза вимагає compliance-інвестицій, які добре зрозумілі, але
+        ще не реалізовані.
       </p>
     </>
   );

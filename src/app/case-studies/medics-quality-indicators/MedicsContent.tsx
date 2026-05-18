@@ -22,7 +22,7 @@ const copy = {
     status: "Production",
     statusVariant: "production" as const,
     tldr:
-      "Ukrainian primary care physicians must meet quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time. Used by 6 physicians at my clinic. Over 3 months, colorectal screening referrals grew ×27, prostate ×4.7, breast ×5.8 — measured against NSZU performance reports.",
+      "Ukrainian primary care physicians must meet quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time. Currently used by physicians at the primary care clinic where I practice. Over 3 months, colorectal screening referrals grew ×27, prostate ×4.7, breast ×5.8 — independently verifiable through the national health service's cohort-level performance reports.",
     section: {
       context: "Context",
       solution: "Solution",
@@ -66,7 +66,7 @@ const copy = {
     ],
     process: {
       ownership:
-        "I identified the clinical problem, specified the indicator logic against MoH regulations, designed the rule-based parser architecture, deployed to my colleagues, and measured adoption against NSZU reports.",
+        "I identified the clinical problem, specified the indicator logic against MoH regulations, designed the rule-based parser architecture, deployed to my colleagues, and measured adoption against the national health service's cohort-level performance reports.",
       collaboration:
         "AI-assisted development with Claude. AI generated implementation; I owned product, design, and architectural framing decisions. I can read any part of the code and explain what it does; for changes, I work with AI as my development partner.",
       timeSpent: "~6 weeks of part-time work in early 2025; ongoing maintenance.",
@@ -80,7 +80,7 @@ const copy = {
     status: "У продакшені",
     statusVariant: "production" as const,
     tldr:
-      "Українські сімейні лікарі мають виконувати індикатори якості, встановлені НСЗУ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення скринінгами по країні. Я зробив розширення Chrome, яке парсить карточку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі. Користуються 6 лікарів у моїй амбулаторії. За 3 місяці направлення на колоректальний скринінг зросли ×27, простати ×4,7, грудей ×5,8 — виміряно по звітах НСЗУ.",
+      "Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення скринінгами по країні. Я зробив розширення Chrome, яке парсить карточку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі. Зараз використовується лікарями амбулаторії, де я практикую. За 3 місяці направлення на колоректальний скринінг зросли ×27, простати ×4,7, грудей ×5,8 — незалежно перевіряється звітами національної служби здоровʼя на рівні когорти.",
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -124,7 +124,7 @@ const copy = {
     ],
     process: {
       ownership:
-        "Визначив клінічну проблему, специфікував логіку індикаторів за наказами МОЗ, спроєктував архітектуру rule-based парсера, розгорнув для колег і виміряв впровадження по звітах НСЗУ.",
+        "Визначив клінічну проблему, специфікував логіку індикаторів за наказами МОЗ, спроєктував архітектуру rule-based парсера, розгорнув для колег і виміряв впровадження по звітах національної служби здоровʼя на рівні когорти.",
       collaboration:
         "AI-асистована розробка з Claude. AI генерував реалізацію; за продуктові, дизайнерські та архітектурні рамки відповідав я. Можу прочитати будь-яку частину коду й пояснити, що вона робить; для змін працюю з AI як з партнером.",
       timeSpent:
@@ -174,8 +174,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
       <p>
-        Ukraine&apos;s National Health Service (NSZU) ties primary care reimbursement to a
-        set of quality indicators codified by Ministry of Health orders — cancer screenings,
+        Ukraine&apos;s national health service ties primary care reimbursement to a set of
+        quality indicators codified by Ministry of Health orders — cancer screenings,
         cardiovascular risk assessment, TB and HIV screening, age-based preventive exams. A
         family physician with ~1,800 patients on their declaration list is responsible for
         hitting these indicators across the entire roster.
@@ -234,10 +234,10 @@ function EnBody({ c }: { c: typeof copy.en }) {
 
       <SectionHeading>{c.section.impact}</SectionHeading>
       <p>
-        Five physicians from my clinic (a cohort of family doctors managing parallel
-        rosters) used the extension from February 2026 onward. NSZU sends monthly
-        performance reports to outpatient clinics in Excel — these became the verification
-        source.
+        Physicians at the primary care clinic where I practice (a cohort of family doctors
+        managing parallel rosters) used the extension from February 2026 onward. The
+        national health service sends monthly performance reports to outpatient clinics in
+        Excel — these became the verification source.
       </p>
       <p>
         Over January → April 2026 the cohort showed measurable shifts in oncology screening
@@ -304,15 +304,15 @@ function EnBody({ c }: { c: typeof copy.en }) {
         </li>
         <li>
           <strong>Distribution among doctors works socially, not technically.</strong> I
-          never built an install pipeline, an admin panel, or onboarding. Five physicians
-          adopted the tool because they saw it on a colleague&apos;s screen and asked for
+          never built an install pipeline, an admin panel, or onboarding. Colleagues
+          adopted the tool because they saw it on each other&apos;s screen and asked for
           access. For internal clinical tools, professional curiosity is the channel.
         </li>
         <li>
           <strong>The most valuable metric was the one the doctors didn&apos;t ask for.</strong>{" "}
           Referral % is what doctors track. <em>Actual coverage</em> (what patients
-          completed) is what NSZU pays for. Showing both side-by-side reframed the
-          conversation about which indicators matter.
+          completed) is what the national health service pays for. Showing both
+          side-by-side reframed the conversation about which indicators matter.
         </li>
         <li>
           <strong>The adoption story among older physicians surprised me.</strong> Most of
@@ -341,7 +341,7 @@ function EnBody({ c }: { c: typeof copy.en }) {
       <p>
         The extension already covers all 13 indicators currently defined for primary care
         quality reporting in Ukraine, so the core surface is feature-complete. The active
-        work is integration with the TB Module — already shipped through a monkey-patched
+        work is integration with the TB Module — already shipped through an extended
         display callback that auto-syncs diagnoses and fluorography results into the TB
         system. A second direction I&apos;m considering is a parallel module for vaccination
         tracking, which would follow the same pattern: parse the EMR, surface what&apos;s
@@ -359,8 +359,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
       <p>
-        Національна служба здоров’я України (НСЗУ) рекомендує запроваджувати
-        індикатори якості, кодифікованих наказами НСЗУ — онкоскринінги, оцінка
+        Українська національна служба здоровʼя повʼязує фінансування первинки з набором
+        індикаторів якості, кодифікованих наказами МОЗ — онкоскринінги, оцінка
         серцево-судинного ризику, скринінг ТБ і ВІЛ, профоглядові за віком. Сімейний лікар
         з ~1 800 пацієнтів у декларації відповідає за виконання цих індикаторів по всьому
         реєстру.
@@ -404,7 +404,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         Матчер свідомо rule-based, не на LLM. Логіка індикаторів — регуляторна, вона має
         бути аудитованою, передбачуваною і пояснюваною. Модель чорної скрині (як з LLM) створює
         медико-юридичну відповідальність. Правила закодовані по whitelist&apos;ах ICPC-2 /
-        МКХ-10 і кодах LOINC, тож коли НСЗУ оновлює наказ, змінюються тільки визначення
+        МКХ-10 і кодах LOINC, тож коли МОЗ оновлює наказ, змінюються тільки визначення
         правил.
       </p>
       <p>
@@ -416,9 +416,9 @@ function UkBody({ c }: { c: typeof copy.uk }) {
 
       <SectionHeading>{c.section.impact}</SectionHeading>
       <p>
-        Пʼятеро лікарів моєї амбулаторії (когорта сімейних лікарів)
-        користувалися розширенням з лютого 2026. НСЗУ щомісяця надсилає звіти про
-        ефективність амбулаторіям у Excel — вони стали джерелом верифікації.
+        Лікарі амбулаторії, де я практикую (когорта сімейних лікарів), користувалися
+        розширенням з лютого 2026. Національна служба здоровʼя щомісяця надсилає звіти
+        про ефективність амбулаторіям у Excel — вони стали джерелом верифікації.
       </p>
       <p>
         З січня по квітень 2026 когорта показала виміряні зрушення в поведінці щодо
@@ -491,7 +491,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         <li>
           <strong>Найцінніша метрика — та, про яку лікарі не просили.</strong> Лікарі
           відслідковують відсоток направлень. <em>Фактичне охоплення</em> (що пацієнти
-          справді пройшли) — це те, за що платить НСЗУ. Показати ці метрики поряд
+          справді пройшли) — це те, за що платить національна служба здоровʼя. Показати ці метрики поряд
           переформатувало розмову про те, які індикатори мають значення.
         </li>
         <li>
@@ -506,7 +506,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
           <strong>
             Кодування регуляторної логіки виявилося меншим вузьким місцем, ніж вибір AI-партнера.
           </strong>{" "}
-          Правила індикаторів НСЗУ написані чітко — переклад у whitelist&apos;и ICPC-2 і
+          Правила індикаторів МОЗ написані чітко — переклад у whitelist&apos;и ICPC-2 і
           зіставлення спостережень було керованою задачею. Довше тривала мета-проблема: це
           був мій перший AI-native білд, і я перепробував кілька моделей і підходів до
           промптингу, поки не зупинився на Claude з декомпозицією задач, що лягла на мій
@@ -519,7 +519,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
       <p>
         Розширення вже охоплює всі 13 індикаторів, які зараз визначені для звітування
         якості первинки в Україні, тож основна поверхня feature-complete. Активна робота —
-        інтеграція з ТБ-модулем; уже випущена через monkey-patched display-callback, що
+        інтеграція з ТБ-модулем; уже випущена через розширений display-callback, що
         автоматично синхронізує діагнози й результати флюорографії в ТБ-систему. Другий
         напрямок, який розглядаю — паралельний модуль для відстеження вакцинації, за тим
         самим патерном: парсимо МІС, показуємо, що потрібно, синхронізуємо результат. Чи

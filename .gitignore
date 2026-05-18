@@ -34,8 +34,9 @@ yarn-error.log*
 # local tooling state
 .claude/
 
-# personal working drafts (outreach copy, contact info)
+# personal working drafts (outreach copy, contact info, compliance reasoning)
 docs/outreach-templates.md
+docs/portfolio-compliance-fixes.md
 
 # typescript
 *.tsbuildinfo
