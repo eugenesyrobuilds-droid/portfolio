@@ -34,6 +34,9 @@ yarn-error.log*
 # local tooling state
 .claude/
 
+# personal working drafts (outreach copy, contact info)
+docs/outreach-templates.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
