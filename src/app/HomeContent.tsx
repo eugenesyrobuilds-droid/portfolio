@@ -161,7 +161,7 @@ export default function HomeContent() {
       </section>
 
       {/* Work */}
-      <section id="work">
+      <section id="work" className="scroll-mt-24">
         <div className="container-wide py-section">
           <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>

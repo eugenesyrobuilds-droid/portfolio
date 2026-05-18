@@ -27,7 +27,7 @@ export default function Header() {
           <div className="flex items-center gap-3 sm:gap-5">
             <nav className="hidden sm:flex items-center gap-7">
               <Link
-                href="/"
+                href="/#work"
                 className="text-ink-700 hover:text-accent-600 text-small font-medium transition-colors"
               >
                 {t.nav.work}
