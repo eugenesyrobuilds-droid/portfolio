@@ -33,6 +33,9 @@ function renderTldr(tldr: string | React.ReactNode): React.ReactNode {
     .map((paragraph, i) => <p key={i}>{paragraph}</p>);
 }
 
+const GRID_SHELL_CLASS =
+  "lg:grid lg:grid-cols-[minmax(0,52rem)_minmax(0,200px)] lg:gap-12 lg:justify-center";
+
 export default function CaseStudyLayout({
   slug,
   title,
@@ -52,40 +55,48 @@ export default function CaseStudyLayout({
       <ReadingProgressBar />
       <article>
         <div className="container-wide pt-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-pill bg-paper shadow-soft border border-accent-border text-small text-ink-700 hover:text-accent-600 px-4 py-2 transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> {t.allWork}
-          </Link>
+          <div className={GRID_SHELL_CLASS}>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 rounded-pill bg-paper shadow-soft border border-accent-border text-small text-ink-700 hover:text-accent-600 px-4 py-2 transition-colors self-start"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> {t.allWork}
+            </Link>
+          </div>
         </div>
 
-        <header className="container-wide pt-10 max-w-prose-wide">
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <StatusBadge label={status} variant={statusVariant} />
-            {tags.map((tag) => (
-              <span key={tag} className="chip">
-                {tag}
-              </span>
-            ))}
-            {readingTimeMin && (
-              <span className="inline-flex items-center gap-1.5 rounded-pill bg-paper-tint text-ink-500 text-label uppercase px-3 py-1.5">
-                <Clock className="w-3 h-3" />
-                {readingTimeMin} {t.reading.minRead}
-              </span>
-            )}
+        <header className="container-wide pt-10">
+          <div className={GRID_SHELL_CLASS}>
+            <div className="max-w-prose-wide">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <StatusBadge label={status} variant={statusVariant} />
+                {tags.map((tag) => (
+                  <span key={tag} className="chip">
+                    {tag}
+                  </span>
+                ))}
+                {readingTimeMin && (
+                  <span className="inline-flex items-center gap-1.5 rounded-pill bg-paper-tint text-ink-500 text-label uppercase px-3 py-1.5">
+                    <Clock className="w-3 h-3" />
+                    {readingTimeMin} {t.reading.minRead}
+                  </span>
+                )}
+              </div>
+              <h1 className="font-heading font-bold text-h1 text-ink-900 mb-5 leading-[1.08]">
+                {title}
+              </h1>
+              <p className="text-body-lg text-ink-700 max-w-prose-narrow">{subtitle}</p>
+              {metaLine && (
+                <p className="text-small text-ink-500 max-w-prose-narrow mt-3">
+                  {metaLine}
+                </p>
+              )}
+            </div>
           </div>
-          <h1 className="font-heading font-bold text-h1 text-ink-900 mb-5 leading-[1.08]">
-            {title}
-          </h1>
-          <p className="text-body-lg text-ink-700 max-w-prose-narrow">{subtitle}</p>
-          {metaLine && (
-            <p className="text-small text-ink-500 max-w-prose-narrow mt-3">{metaLine}</p>
-          )}
         </header>
 
         <div className="container-wide pt-10 pb-section">
-          <div className="lg:grid lg:grid-cols-[minmax(0,52rem)_minmax(0,200px)] lg:gap-12 lg:justify-center">
+          <div className={GRID_SHELL_CLASS}>
             <div className="space-y-12">
               <FadeIn>
                 <div className="bg-paper rounded-card shadow-card p-7">
