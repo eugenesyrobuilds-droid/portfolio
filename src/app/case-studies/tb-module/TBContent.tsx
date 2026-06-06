@@ -5,6 +5,7 @@ import CaseStudyLayout from "@/components/CaseStudyLayout";
 import SectionHeading from "@/components/SectionHeading";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
+import PullQuote from "@/components/PullQuote";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -107,12 +108,14 @@ export default function TBContent() {
 
   return (
     <CaseStudyLayout
+      slug="tb-module"
       title={c.title}
       subtitle={c.subtitle}
       status={c.status}
       statusVariant={c.statusVariant}
       tags={c.tags}
       tldr={c.tldr}
+      readingTimeMin={9}
     >
       {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
     </CaseStudyLayout>
@@ -225,6 +228,10 @@ function EnBody({ c }: { c: typeof copy.en }) {
         a single practice.
       </p>
       <p>Adoption metrics will follow as the system accumulates more usage data.</p>
+
+      <PullQuote>
+        Replacing paper with software is mostly a schema design problem.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
@@ -399,6 +406,10 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         система масштабується поза однією амбулаторією.
       </p>
       <p>Метрики впровадження зʼявляться, коли система накопичить дані використання.</p>
+
+      <PullQuote>
+        Заміна паперу софтом — це переважно задача дизайну схеми.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />

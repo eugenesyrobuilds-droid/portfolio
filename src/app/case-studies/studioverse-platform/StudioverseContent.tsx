@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import MetricCard from "@/components/MetricCard";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
+import PullQuote from "@/components/PullQuote";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -136,12 +137,14 @@ export default function StudioverseContent() {
 
   return (
     <CaseStudyLayout
+      slug="studioverse-platform"
       title={c.title}
       subtitle={c.subtitle}
       status={c.status}
       statusVariant={c.statusVariant}
       tags={c.tags}
       tldr={c.tldr}
+      readingTimeMin={11}
     >
       {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
     </CaseStudyLayout>
@@ -302,6 +305,10 @@ function EnBody({ c }: { c: typeof copy.en }) {
         included Vitest for unit tests, Playwright for E2E, with a parallel test schema in
         Supabase for isolated runs.
       </p>
+
+      <PullQuote>
+        A 7-week build is a different category of project from a 7-month build.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
@@ -500,6 +507,10 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         Vitest для unit-тестів, Playwright для E2E, плюс паралельна test-схема в Supabase
         для ізольованих прогонів.
       </p>
+
+      <PullQuote>
+        Білд на 7 тижнів — інша категорія проєкту, ніж білд на 7 місяців.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />

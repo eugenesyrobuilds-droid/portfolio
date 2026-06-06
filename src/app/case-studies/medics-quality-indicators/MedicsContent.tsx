@@ -7,6 +7,7 @@ import MetricsTable from "@/components/MetricsTable";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
 import Upd from "@/components/Upd";
+import PullQuote from "@/components/PullQuote";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -24,8 +25,9 @@ const copy = {
     statusVariant: "production" as const,
     metaLine:
       "Originally published May 21, 2026 · Updated June 6, 2026 — see the UPD notes below.",
-    tldr:
-      "Ukrainian primary-care physicians have to hit quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review the fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time. Across the five physicians at my clinic who adopted it, oncology screening referrals over Jan–May 2026 rose roughly ×28 for colorectal, ×4.5 for prostate, and ×4.9 for breast — while the eleven colleagues on the same EMR who didn't adopt it stayed flat, which makes them a built-in control group. Every figure is independently verifiable from the national health service's monthly performance reports. I later tried to spin the tool out into a paid product and shut that down in 36 hours; the June 2026 update at the bottom explains why.",
+    tldr: `Ukrainian primary-care physicians have to hit quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review the fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time.
+
+Across the five physicians at my clinic who adopted it, oncology screening referrals over Jan–May 2026 rose roughly ×28 for colorectal, ×4.5 for prostate, and ×4.9 for breast — while the eleven colleagues on the same EMR who didn't adopt it stayed flat, which makes them a built-in control group. Every figure is independently verifiable from the national health service's monthly performance reports. I later tried to spin the tool out into a paid product and shut that down in 36 hours; the June 2026 update at the bottom explains why.`,
     section: {
       context: "Context",
       solution: "Solution",
@@ -84,8 +86,9 @@ const copy = {
     statusVariant: "production" as const,
     metaLine:
       "Опубліковано 21 травня 2026 · Оновлено 6 червня 2026 — див. плашки UPD нижче.",
-    tldr:
-      "Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення онкоскринінгом по країні. Я зробив розширення Chrome, яке парсить картку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі. Серед пʼятьох лікарів моєї амбулаторії, які почали ним користуватись, направлення на онкоскринінги за січень–травень 2026 зросли приблизно ×28 для колоректального, ×4,5 для простати і ×4,9 для грудей — тоді як одинадцять колег на тій самій МІС, які не користувались, лишились на місці, що робить їх вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних звітів національної служби здоровʼя про ефективність. Згодом я спробував перетворити інструмент на платний продукт і закрив це за 36 годин; чому — у плашці UPD за червень 2026 у самому низу.",
+    tldr: `Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення онкоскринінгом по країні. Я зробив розширення Chrome, яке парсить картку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі.
+
+Серед пʼятьох лікарів моєї амбулаторії, які почали ним користуватись, направлення на онкоскринінги за січень–травень 2026 зросли приблизно ×28 для колоректального, ×4,5 для простати і ×4,9 для грудей — тоді як одинадцять колег на тій самій МІС, які не користувались, лишились на місці, що робить їх вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних звітів національної служби здоровʼя про ефективність. Згодом я спробував перетворити інструмент на платний продукт і закрив це за 36 годин; чому — у плашці UPD за червень 2026 у самому низу.`,
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -144,6 +147,7 @@ export default function MedicsContent() {
 
   return (
     <CaseStudyLayout
+      slug="medics-quality-indicators"
       title={c.title}
       subtitle={c.subtitle}
       status={c.status}
@@ -151,6 +155,7 @@ export default function MedicsContent() {
       tags={c.tags}
       tldr={c.tldr}
       metaLine={c.metaLine}
+      readingTimeMin={12}
     >
       {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
     </CaseStudyLayout>
@@ -300,6 +305,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
         imaging centers, return for results), but it&apos;s the metric that matters for
         population health.
       </p>
+
+      <PullQuote>Choosing the denominator is the analysis, not a footnote.</PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
@@ -558,6 +565,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         діагностичних центрів, повернутись із результатами), але це метрика, яка матиме
         значення для популяційного здоровʼя.
       </p>
+
+      <PullQuote>Вибір знаменника — це аналіз, а не примітка.</PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />

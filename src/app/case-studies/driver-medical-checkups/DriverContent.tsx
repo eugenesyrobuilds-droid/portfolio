@@ -5,6 +5,7 @@ import CaseStudyLayout from "@/components/CaseStudyLayout";
 import SectionHeading from "@/components/SectionHeading";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
+import PullQuote from "@/components/PullQuote";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -169,12 +170,14 @@ export default function DriverContent() {
 
   return (
     <CaseStudyLayout
+      slug="driver-medical-checkups"
       title={c.title}
       subtitle={c.subtitle}
       status={c.status}
       statusVariant={c.statusVariant}
       tags={c.tags}
       tldr={c.tldr}
+      readingTimeMin={10}
     >
       {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
     </CaseStudyLayout>
@@ -294,6 +297,11 @@ function EnBody({ c }: { c: typeof copy.en }) {
           verification.
         </li>
       </ul>
+
+      <PullQuote>
+        Working code that&apos;s not legally usable is, for compliance products,
+        indistinguishable from working code that doesn&apos;t exist.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <p>
@@ -493,6 +501,11 @@ function UkBody({ c }: { c: typeof copy.uk }) {
           і дампи памʼяті пристрою на кожну зміну для верифікації.
         </li>
       </ul>
+
+      <PullQuote>
+        Робочий код, який юридично не можна використовувати — для compliance-продуктів —
+        невідрізнимий від коду, якого не існує.
+      </PullQuote>
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <p>

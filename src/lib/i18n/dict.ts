@@ -24,6 +24,7 @@ export type Dict = {
   status: { production: string; regulatoryPending: string };
   footer: { built: string };
   email: { copy: string; copied: string };
+  reading: { onThisPage: string; minRead: string; backToTop: string; readNext: string };
 };
 
 export const dict: Record<Locale, Dict> = {
@@ -57,6 +58,12 @@ export const dict: Record<Locale, Dict> = {
       built: "© 2026 Eugene Syromiatnikov. Built with Next.js + AI.",
     },
     email: { copy: "Copy email", copied: "Copied" },
+    reading: {
+      onThisPage: "On this page",
+      minRead: "min read",
+      backToTop: "Back to top",
+      readNext: "Read next",
+    },
   },
   uk: {
     nav: { work: "Роботи", about: "Про мене", contact: "Контакти" },
@@ -88,6 +95,12 @@ export const dict: Record<Locale, Dict> = {
       built: "© 2026 Євген Сиромятников. Збудовано на Next.js + AI.",
     },
     email: { copy: "Копіювати email", copied: "Скопійовано" },
+    reading: {
+      onThisPage: "На цій сторінці",
+      minRead: "хв читання",
+      backToTop: "Нагору",
+      readNext: "Читати далі",
+    },
   },
 };
 
