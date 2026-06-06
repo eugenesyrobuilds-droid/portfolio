@@ -18,11 +18,20 @@ type Props = {
   status: string;
   statusVariant?: "production" | "regulatory";
   tags: string[];
-  tldr: string;
+  tldr: string | React.ReactNode;
   metaLine?: string;
   readingTimeMin?: number;
   children: React.ReactNode;
 };
+
+function renderTldr(tldr: string | React.ReactNode): React.ReactNode {
+  if (typeof tldr !== "string") return tldr;
+  return tldr
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((paragraph, i) => <p key={i}>{paragraph}</p>);
+}
 
 export default function CaseStudyLayout({
   slug,
@@ -37,7 +46,6 @@ export default function CaseStudyLayout({
   children,
 }: Props) {
   const { t } = useLocale();
-  const tldrParagraphs = tldr.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
   return (
     <>
@@ -76,27 +84,28 @@ export default function CaseStudyLayout({
           )}
         </header>
 
-        <section className="container-wide max-w-prose-wide mt-10">
-          <FadeIn>
-            <div className="bg-paper rounded-card shadow-card p-7 mb-12">
-              <p className="text-label uppercase text-accent-600 mb-3">{t.quickRead}</p>
-              <div className="text-body-lg text-ink-800 leading-relaxed space-y-4">
-                {tldrParagraphs.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+        <div className="container-wide pt-10 pb-section">
+          <div className="lg:grid lg:grid-cols-[minmax(0,52rem)_minmax(0,200px)] lg:gap-12 lg:justify-center">
+            <div className="space-y-12">
+              <FadeIn>
+                <div className="bg-paper rounded-card shadow-card p-7">
+                  <p className="text-label uppercase text-accent-600 mb-3">
+                    {t.quickRead}
+                  </p>
+                  <div className="text-body-lg text-ink-800 leading-relaxed space-y-4">
+                    {renderTldr(tldr)}
+                  </div>
+                </div>
+              </FadeIn>
+
+              <div
+                data-case-study-prose
+                className="bg-paper rounded-card shadow-card p-8 sm:p-12 prose prose-lg prose-headings:font-heading prose-headings:font-bold prose-headings:text-ink-900 prose-p:text-ink-800 prose-li:text-ink-800 prose-strong:text-ink-900 prose-strong:font-semibold prose-a:text-accent-600 prose-a:no-underline hover:prose-a:underline prose-em:italic prose-code:font-mono prose-code:text-accent-700 prose-code:bg-accent-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none max-w-none"
+              >
+                {children}
               </div>
             </div>
-          </FadeIn>
-        </section>
 
-        <div className="container-wide pb-section">
-          <div className="lg:grid lg:grid-cols-[minmax(0,52rem)_minmax(0,200px)] lg:gap-12 lg:justify-center">
-            <div
-              data-case-study-prose
-              className="bg-paper rounded-card shadow-card p-8 sm:p-12 prose prose-lg prose-headings:font-heading prose-headings:font-bold prose-headings:text-ink-900 prose-p:text-ink-800 prose-li:text-ink-800 prose-strong:text-ink-900 prose-strong:font-semibold prose-a:text-accent-600 prose-a:no-underline hover:prose-a:underline prose-em:italic prose-code:font-mono prose-code:text-accent-700 prose-code:bg-accent-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none max-w-none"
-            >
-              {children}
-            </div>
             <div className="hidden lg:block">
               <CaseStudyTOC />
             </div>

@@ -32,7 +32,7 @@ export default function ReadingProgressBar() {
   return (
     <div
       aria-hidden="true"
-      className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-[60] h-1 bg-paper-tint/50 pointer-events-none"
     >
       <div
         className="h-full bg-accent-500 transition-[width] duration-75 ease-out"

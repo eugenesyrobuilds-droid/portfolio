@@ -7,7 +7,7 @@ import MetricsTable from "@/components/MetricsTable";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
 import Upd from "@/components/Upd";
-import PullQuote from "@/components/PullQuote";
+// PullQuote import removed temporarily — see TBD slot below
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -25,9 +25,31 @@ const copy = {
     statusVariant: "production" as const,
     metaLine:
       "Originally published May 21, 2026 · Updated June 6, 2026 — see the UPD notes below.",
-    tldr: `Ukrainian primary-care physicians have to hit quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review the fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time.
-
-Across the five physicians at my clinic who adopted it, oncology screening referrals over Jan–May 2026 rose roughly ×28 for colorectal, ×4.5 for prostate, and ×4.9 for breast — while the eleven colleagues on the same EMR who didn't adopt it stayed flat, which makes them a built-in control group. Every figure is independently verifiable from the national health service's monthly performance reports. I later tried to spin the tool out into a paid product and shut that down in 36 hours; the June 2026 update at the bottom explains why.`,
+    tldr: (
+      <>
+        <p>
+          Ukrainian primary-care physicians have to hit quality indicators set by the
+          Ministry of Health, but the Medics EMR doesn&apos;t surface per-patient indicator
+          status — doctors review the fields manually, with predictable results: low
+          oncology screening coverage nationwide. I built a Chrome extension that parses
+          the patient view and shows indicator status (done / overdue / partial / missing)
+          in real time.
+        </p>
+        <p>
+          Across the five physicians at my clinic who adopted it, oncology screening
+          referrals over Jan–May 2026 rose roughly ×28 for colorectal, ×4.5 for prostate,
+          and ×4.9 for breast — while the eleven colleagues on the same EMR who
+          didn&apos;t adopt it stayed flat, which makes them a built-in control group.
+          Every figure is independently verifiable from the national health service&apos;s
+          monthly performance reports.
+        </p>
+        <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+          I later tried to spin this tool out into a paid product and shut that down in
+          36 hours — domain, landing, full backend shipped, then killed the same day I
+          re-read Medics&apos; ToS. The June 2026 update at the bottom is the full story.
+        </p>
+      </>
+    ),
     section: {
       context: "Context",
       solution: "Solution",
@@ -86,9 +108,32 @@ Across the five physicians at my clinic who adopted it, oncology screening refer
     statusVariant: "production" as const,
     metaLine:
       "Опубліковано 21 травня 2026 · Оновлено 6 червня 2026 — див. плашки UPD нижче.",
-    tldr: `Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення онкоскринінгом по країні. Я зробив розширення Chrome, яке парсить картку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі.
-
-Серед пʼятьох лікарів моєї амбулаторії, які почали ним користуватись, направлення на онкоскринінги за січень–травень 2026 зросли приблизно ×28 для колоректального, ×4,5 для простати і ×4,9 для грудей — тоді як одинадцять колег на тій самій МІС, які не користувались, лишились на місці, що робить їх вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних звітів національної служби здоровʼя про ефективність. Згодом я спробував перетворити інструмент на платний продукт і закрив це за 36 годин; чому — у плашці UPD за червень 2026 у самому низу.`,
+    tldr: (
+      <>
+        <p>
+          Українські сімейні лікарі мають виконувати індикатори якості, встановлені
+          наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного
+          пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке
+          охоплення онкоскринінгом по країні. Я зробив розширення Chrome, яке парсить
+          картку пацієнта і показує статус індикаторів (виконано / прострочено / частково
+          / відсутнє) у реальному часі.
+        </p>
+        <p>
+          Серед пʼятьох лікарів моєї амбулаторії, які почали ним користуватись,
+          направлення на онкоскринінги за січень–травень 2026 зросли приблизно ×28 для
+          колоректального, ×4,5 для простати і ×4,9 для грудей — тоді як одинадцять колег
+          на тій самій МІС, які не користувались, лишились на місці, що робить їх
+          вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних
+          звітів національної служби здоровʼя про ефективність.
+        </p>
+        <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+          Згодом я спробував перетворити цей інструмент на платний продукт і закрив це за
+          36 годин — домен, лендинг, повноцінний бекенд були випущені, а потім я закрив
+          це того ж дня, коли перечитав Умови використання Medics. Уся історія — у
+          плашці UPD за червень 2026 у самому низу.
+        </p>
+      </>
+    ),
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -306,7 +351,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
         population health.
       </p>
 
-      <PullQuote>Choosing the denominator is the analysis, not a footnote.</PullQuote>
+      {/* PullQuote slot — pick the right line; reach for: a sentence that re-frames the case in one breath. */}
+      {/* <PullQuote>TBD</PullQuote> */}
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
@@ -566,7 +612,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         значення для популяційного здоровʼя.
       </p>
 
-      <PullQuote>Вибір знаменника — це аналіз, а не примітка.</PullQuote>
+      {/* PullQuote slot — pick the right line; reach for: a sentence that re-frames the case in one breath. */}
+      {/* <PullQuote>TBD</PullQuote> */}
 
       <SectionHeading>{c.section.tech}</SectionHeading>
       <TechStack groups={c.techGroups} />
