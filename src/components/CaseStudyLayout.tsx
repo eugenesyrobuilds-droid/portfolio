@@ -12,6 +12,7 @@ type Props = {
   statusVariant?: "production" | "regulatory";
   tags: string[];
   tldr: string;
+  metaLine?: string;
   children: React.ReactNode;
 };
 
@@ -22,6 +23,7 @@ export default function CaseStudyLayout({
   statusVariant = "production",
   tags,
   tldr,
+  metaLine,
   children,
 }: Props) {
   const { t } = useLocale();
@@ -49,6 +51,9 @@ export default function CaseStudyLayout({
           {title}
         </h1>
         <p className="text-body-lg text-ink-700 max-w-prose-narrow">{subtitle}</p>
+        {metaLine && (
+          <p className="text-small text-ink-500 max-w-prose-narrow mt-3">{metaLine}</p>
+        )}
       </header>
 
       <section className="container-wide max-w-prose-wide mt-10">

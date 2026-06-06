@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import MetricsTable from "@/components/MetricsTable";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
+import Upd from "@/components/Upd";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
 const screenshot = {
@@ -21,8 +22,10 @@ const copy = {
     tags: ["Healthcare", "Chrome Extension", "AI-assisted dev"],
     status: "Production",
     statusVariant: "production" as const,
+    metaLine:
+      "Originally published May 21, 2026 · Updated June 6, 2026 — see the UPD notes below.",
     tldr:
-      "Ukrainian primary care physicians must meet quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time. Currently used by physicians at the primary care clinic where I practice. Over 3 months, colorectal screening referrals grew ×27, prostate ×4.7, breast ×5.8 — independently verifiable through the national health service's cohort-level performance reports.",
+      "Ukrainian primary-care physicians have to hit quality indicators set by the Ministry of Health, but the Medics EMR doesn't surface per-patient indicator status — doctors review the fields manually, with predictable results: low oncology screening coverage nationwide. I built a Chrome extension that parses the patient view and shows indicator status (done / overdue / partial / missing) in real time. Across the five physicians at my clinic who adopted it, oncology screening referrals over Jan–May 2026 rose roughly ×28 for colorectal, ×4.5 for prostate, and ×4.9 for breast — while the eleven colleagues on the same EMR who didn't adopt it stayed flat, which makes them a built-in control group. Every figure is independently verifiable from the national health service's monthly performance reports. I later tried to spin the tool out into a paid product and shut that down in 36 hours; the June 2026 update at the bottom explains why.",
     section: {
       context: "Context",
       solution: "Solution",
@@ -79,8 +82,10 @@ const copy = {
     tags: ["Healthcare", "Розширення Chrome", "AI-розробка"],
     status: "У продакшені",
     statusVariant: "production" as const,
+    metaLine:
+      "Опубліковано 21 травня 2026 · Оновлено 6 червня 2026 — див. плашки UPD нижче.",
     tldr:
-      "Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення скринінгами по країні. Я зробив розширення Chrome, яке парсить карточку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі. Зараз використовується лікарями амбулаторії, де я практикую. За 3 місяці направлення на колоректальний скринінг зросли ×27, простати ×4,7, грудей ×5,8 — незалежно перевіряється звітами національної служби здоровʼя на рівні когорти.",
+      "Українські сімейні лікарі мають виконувати індикатори якості, встановлені наказами МОЗ, але МІС Medics не показує статус індикаторів для конкретного пацієнта — лікарі переглядають поля вручну, з передбачуваним результатом: низьке охоплення онкоскринінгом по країні. Я зробив розширення Chrome, яке парсить картку пацієнта і показує статус індикаторів (виконано / прострочено / частково / відсутнє) у реальному часі. Серед пʼятьох лікарів моєї амбулаторії, які почали ним користуватись, направлення на онкоскринінги за січень–травень 2026 зросли приблизно ×28 для колоректального, ×4,5 для простати і ×4,9 для грудей — тоді як одинадцять колег на тій самій МІС, які не користувались, лишились на місці, що робить їх вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних звітів національної служби здоровʼя про ефективність. Згодом я спробував перетворити інструмент на платний продукт і закрив це за 36 годин; чому — у плашці UPD за червень 2026 у самому низу.",
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -145,6 +150,7 @@ export default function MedicsContent() {
       statusVariant={c.statusVariant}
       tags={c.tags}
       tldr={c.tldr}
+      metaLine={c.metaLine}
     >
       {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
     </CaseStudyLayout>
@@ -246,6 +252,33 @@ function EnBody({ c }: { c: typeof copy.en }) {
 
       <MetricsTable headers={c.metricsHeaders} rows={c.metricsRows} />
 
+      <Upd date="June 2026">
+        <p>
+          Two clarifications, after re-deriving every number from the source reports.
+        </p>
+        <p>
+          <strong>The right denominator.</strong> The figures above are for the five
+          physicians who actually adopted the extension — not the full 16-doctor clinic.
+          That&apos;s the cohort whose behavior the tool could plausibly change.
+        </p>
+        <p>
+          <strong>A control group I didn&apos;t have when I first wrote this.</strong> The
+          other eleven doctors run the same EMR, under the same MoH rules, over the same
+          months — and their oncology referrals barely moved (colorectal ×1.3, prostate
+          ×1.2, breast ×1.1), while the adopter cohort jumped ×28 / ×4.5 / ×4.9 (colorectal
+          / prostate / breast, Jan→May). Same building, same regulations; the tool is the
+          only variable. The adopters did self-select, so read this as a natural
+          experiment rather than a randomized one — but with everyone starting near zero
+          on oncology and only the adopters moving, the contrast holds.
+        </p>
+        <p>
+          <strong>Two honest corrections to the table.</strong> Extending to the latest
+          (May 1) report, breast referrals are ×4.9, not ×5.8; and the HIV figure is 2→4
+          patients on a denominator of ~30 — too small to be signal, so I no longer
+          present it as a result.
+        </p>
+      </Upd>
+
       <p>Two observations matter:</p>
       <p>
         <strong>First</strong>, the lag pattern is clean. February (deployment month) showed
@@ -284,7 +317,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
         platform-agnostic — it would port to a different EMR by writing a new parser. The
         current design doesn&apos;t formalize a <code>PlatformAdapter</code> interface, but
         the separation is clean enough that adapting to Helsi or EMCi is a known-shape
-        engineering task, not a rewrite.
+        engineering task, not a rewrite. In June 2026 a standalone build reused this core
+        unchanged behind an auth gate — practical confirmation rather than a hypothesis.
       </p>
 
       <ProcessNote
@@ -336,6 +370,55 @@ function EnBody({ c }: { c: typeof copy.en }) {
           not the project itself.
         </li>
       </ul>
+
+      <Upd date="June 2026">
+        <p>
+          <strong>Choosing the denominator is the analysis, not a footnote.</strong> The
+          same intervention reads as roughly ×3 across the whole clinic and ×28 across the
+          five doctors who actually used it. Population coverage and adopter-cohort lift
+          answer different questions; quoting one as the other — in either direction —
+          misleads. The honest unit is the cohort the tool could affect, shown next to a
+          control.
+        </p>
+      </Upd>
+
+      <Upd date="June 2026">
+        <p>
+          <strong>
+            I tried to turn this into a product — and shut it down in 36 hours.
+          </strong>
+        </p>
+        <p>
+          I spun the extension out as a standalone SaaS (sterno.com.ua): domain, landing
+          page, and a full backend — email-verified auth, sessions, a 14-day trial with a
+          subscription state machine, license-gated status polling in the extension,
+          transactional email with delivery logging — all in production in about a day
+          and a half. (Spinning it out also confirmed the core is portable: the standalone
+          reused the same analytical engine behind an auth gate, no rewrite.)
+        </p>
+        <p>
+          Then two things ended it. First, Medics&apos; terms of service (clause 6.3.6)
+          prohibit automated scripts that collect data from or interact with the site —
+          which is exactly what a DOM-parsing overlay does. The clause predates my
+          project; I just hadn&apos;t read it before starting. That closes the
+          build-it-myself path on its own. Second, and more fundamental: the pain
+          isn&apos;t monetizable. These indicators are non-mandatory — the health service
+          neither pays for meeting them nor penalizes missing them — so no one carries a
+          cost from non-compliance, and there&apos;s no one to sell to. That also rules
+          out the fallback of pitching Medics on a revenue share or a paid add-on:
+          there&apos;s no revenue to share.
+        </p>
+        <p>
+          I killed it the same day I found the ToS clause, before a single user signed up
+          and before any patient data touched the service. The Chrome extension keeps
+          running in my own practice, where it has real clinical value — a working tool
+          that never found an economic model, not a failed product.
+        </p>
+        <p>
+          The lesson, in one line: validate the terms of service and the existence of a
+          payer before you build the company, not after.
+        </p>
+      </Upd>
 
       <SectionHeading>{c.section.next}</SectionHeading>
       <p>
@@ -427,6 +510,34 @@ function UkBody({ c }: { c: typeof copy.uk }) {
 
       <MetricsTable headers={c.metricsHeaders} rows={c.metricsRows} />
 
+      <Upd date="Червень 2026">
+        <p>
+          Два уточнення, після того як перерахував кожну цифру з первинних звітів.
+        </p>
+        <p>
+          <strong>Правильний знаменник.</strong> Цифри вище — це по пʼятьох лікарях, які
+          реально стали користуватись розширенням, а не по всій амбулаторії з 16 лікарів.
+          Це та когорта, чию поведінку інструмент справді міг змінити.
+        </p>
+        <p>
+          <strong>Контрольна група, якої я не мав, коли писав текст уперше.</strong>{" "}
+          Решта одинадцять лікарів працюють у тій самій МІС, за тими самими наказами МОЗ,
+          у ті ж місяці — і їхні направлення на онкоскринінги майже не змінились
+          (колоректал ×1,3, простата ×1,2, груди ×1,1), тоді як когорта користувачів
+          стрибнула ×28 / ×4,5 / ×4,9 (колоректал / простата / груди, січ→тра). Та сама
+          будівля, та сама регуляторика; інструмент — єдина змінна. Користувачі обрали
+          себе самі, тож читай це як природний експеримент, а не як рандомізований — але
+          коли по онкології всі стартують біля нуля, а зрушуються лише користувачі,
+          контраст тримається.
+        </p>
+        <p>
+          <strong>Дві чесні поправки до таблиці.</strong> Якщо продовжити до найсвіжішого
+          звіту (1 травня), направлення на скринінг грудей — це ×4,9, а не ×5,8; а цифра
+          по ВІЛ — 2→4 пацієнти на знаменнику ~30, занадто мало для сигналу, тож більше не
+          подаю це як результат.
+        </p>
+      </Upd>
+
       <p>Дві важливі речі:</p>
       <p>
         <strong>Перше</strong>, патерн лагу чистий. Лютий (місяць розгортання) показав
@@ -464,7 +575,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         platform-agnostic, переноситься в іншу МІС написанням нового парсера. У поточному
         дизайні немає формалізованого інтерфейсу <code>PlatformAdapter</code>, але
         розділення достатньо чисте, щоб адаптація під Helsi чи іншу МІС була інженерною
-        задачею відомої форми, а не переписуванням.
+        задачею відомої форми, а не переписуванням. У червні 2026 standalone-білд переніс
+        це ядро без змін за auth-gate — практичне підтвердження, а не гіпотеза.
       </p>
 
       <ProcessNote
@@ -514,6 +626,55 @@ function UkBody({ c }: { c: typeof copy.uk }) {
           крива — вибір інструмента й воркфлоу, а не сам проєкт.
         </li>
       </ul>
+
+      <Upd date="Червень 2026">
+        <p>
+          <strong>Вибір знаменника — це аналіз, а не примітка.</strong> Те саме втручання
+          читається як приблизно ×3 по всій амбулаторії і як ×28 по пʼятьох лікарях, які
+          реально ним користувались. Охоплення популяції та приріст у когорті
+          користувачів відповідають на різні питання; цитувати одне замість іншого — в
+          будь-який бік — означає вводити в оману. Чесна одиниця — це когорта, на яку
+          інструмент міг вплинути, показана поруч з контролем.
+        </p>
+      </Upd>
+
+      <Upd date="Червень 2026">
+        <p>
+          <strong>
+            Я спробував зробити з цього продукт — і закрив його за 36 годин.
+          </strong>
+        </p>
+        <p>
+          Я виніс розширення в окремий SaaS (sterno.com.ua): домен, лендинг і повноцінний
+          бекенд — email-verified авторизація, сесії, 14-денний trial зі state machine
+          підписки, polling статусу в розширенні через ліцензію, транзакційний email з
+          логом доставки — все в продакшені приблизно за півтора дня. (Винесення також
+          підтвердило, що ядро портативне: standalone використав той самий аналітичний
+          рушій за auth-gate, без переписування.)
+        </p>
+        <p>
+          Далі дві речі це поклали. Перше — Умови використання Medics (пункт 6.3.6)
+          забороняють автоматизовані скрипти, що збирають дані із сайту або взаємодіють з
+          ним, що й робить overlay-парсер DOM. Пункт існував до мого проєкту; я просто не
+          прочитав його перед стартом. Це закриває шлях «зробити самому» сам по собі.
+          Друге, фундаментальніше: біль не монетизується. Ці індикатори необовʼязкові —
+          служба здоровʼя ні платить за їх виконання, ні штрафує за невиконання, — тож
+          ніхто не несе витрат від невідповідності, і нема́ кому продавати. Це також
+          закриває запасний варіант — пропонувати Medics revenue share або платний
+          add-on: ділити нема́ чого.
+        </p>
+        <p>
+          Закрив того ж дня, коли знайшов пункт ToS — до того як зареєструвався хоч один
+          користувач і до того як дані пацієнтів торкнулись сервісу. Розширення Chrome
+          продовжує працювати в моїй власній практиці, де має реальну клінічну цінність —
+          робочий інструмент, який не знайшов економічної моделі, а не провалений
+          продукт.
+        </p>
+        <p>
+          Урок одним рядком: перевір умови використання й наявність платника до того, як
+          будуєш компанію, а не після.
+        </p>
+      </Upd>
 
       <SectionHeading>{c.section.next}</SectionHeading>
       <p>
