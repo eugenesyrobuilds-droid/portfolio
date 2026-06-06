@@ -58,7 +58,7 @@ export default function CaseStudyLayout({
           <div className={GRID_SHELL_CLASS}>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-pill bg-paper shadow-soft border border-accent-border text-small text-ink-700 hover:text-accent-600 px-4 py-2 transition-colors self-start"
+              className="inline-flex items-center gap-2 rounded-pill bg-paper shadow-soft border border-accent-border text-small text-ink-700 hover:text-accent-600 px-4 py-2 transition-colors justify-self-start"
             >
               <ArrowLeft className="w-3.5 h-3.5" /> {t.allWork}
             </Link>
