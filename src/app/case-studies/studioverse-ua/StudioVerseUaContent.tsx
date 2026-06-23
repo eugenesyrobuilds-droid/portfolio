@@ -186,17 +186,34 @@ export default function StudioVerseUaContent() {
   );
 }
 
-function Figure({ src, alt, captionKey }: { src: string; alt: string; captionKey: keyof typeof screenshots["en"] }) {
+type FigureProps = {
+  src: string;
+  alt: string;
+  captionKey: keyof typeof screenshots["en"];
+  width: number;
+  height: number;
+  narrow?: "sm" | "md";
+};
+
+function Figure({ src, alt, captionKey, width, height, narrow }: FigureProps) {
   const { locale } = useLocale();
+  const containerClass =
+    narrow === "sm"
+      ? "max-w-[340px] mx-auto"
+      : narrow === "md"
+        ? "max-w-md mx-auto"
+        : "";
   return (
     <figure className="my-8 not-prose">
-      <Image
-        src={src}
-        alt={alt}
-        width={2880}
-        height={1800}
-        className="rounded-card shadow-soft w-full h-auto"
-      />
+      <div className={containerClass}>
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className="rounded-card shadow-soft w-full h-auto"
+        />
+      </div>
       <figcaption className="text-small text-ink-500 mt-2 text-center">
         {screenshots[locale][captionKey]}
       </figcaption>
@@ -308,6 +325,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
         src="/images/studioverse-ua/score-chip-tooltip.png"
         alt="Per-job score chip with open tooltip showing the contributing signals"
         captionKey="scoreChip"
+        width={1924}
+        height={758}
       />
 
       <p>
@@ -321,12 +340,18 @@ function EnBody({ c }: { c: typeof copy.en }) {
         src="/images/studioverse-ua/job-page-sidebar.png"
         alt="Sidebar on the job page with the generated proposal draft"
         captionKey="jobSidebar"
+        width={718}
+        height={1794}
+        narrow="sm"
       />
 
       <Figure
         src="/images/studioverse-ua/search-results-sidebar.png"
         alt="Sidebar on the search results page showing scanner state and controls"
         captionKey="searchSidebar"
+        width={564}
+        height={638}
+        narrow="md"
       />
 
       <p>
@@ -406,6 +431,8 @@ function EnBody({ c }: { c: typeof copy.en }) {
         src="/images/studioverse-ua/analytics-dashboard.png"
         alt="Analytics dashboard tracking the proposal funnel and template performance"
         captionKey="analytics"
+        width={2878}
+        height={1786}
       />
 
       <p>
@@ -548,6 +575,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         src="/images/studioverse-ua/score-chip-tooltip.png"
         alt="Чип скору на джобі з відкритим тултипом про сигнали"
         captionKey="scoreChip"
+        width={1924}
+        height={758}
       />
 
       <p>
@@ -562,12 +591,18 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         src="/images/studioverse-ua/job-page-sidebar.png"
         alt="Сайдбар на сторінці джоби з готовою чернеткою пропозалу"
         captionKey="jobSidebar"
+        width={718}
+        height={1794}
+        narrow="sm"
       />
 
       <Figure
         src="/images/studioverse-ua/search-results-sidebar.png"
         alt="Сайдбар на сторінці результатів пошуку зі станом сканера й контролами"
         captionKey="searchSidebar"
+        width={564}
+        height={638}
+        narrow="md"
       />
 
       <p>
@@ -648,6 +683,8 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         src="/images/studioverse-ua/analytics-dashboard.png"
         alt="Аналітичний дашборд: воронка пропозалів і ефективність шаблонів"
         captionKey="analytics"
+        width={2878}
+        height={1786}
       />
 
       <p>
