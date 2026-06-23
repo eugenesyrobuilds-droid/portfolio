@@ -43,7 +43,7 @@ const copy = {
           Every figure is independently verifiable from the national health service&apos;s
           monthly performance reports.
         </p>
-        <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+        <p className="text-accent-700 font-medium">
           I later tried to spin this tool out into a paid product and shut that down in
           36 hours — domain, landing, full backend shipped, then killed the same day I
           re-read Medics&apos; ToS. The June 2026 update at the bottom is the full story.
@@ -126,7 +126,7 @@ const copy = {
           вбудованою контрольною групою. Кожна цифра незалежно перевіряється з місячних
           звітів національної служби здоровʼя про ефективність.
         </p>
-        <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+        <p className="text-accent-700 font-medium">
           Згодом я спробував перетворити цей інструмент на платний продукт і закрив це за
           36 годин — домен, лендинг, повноцінний бекенд були випущені, а потім я закрив
           це того ж дня, коли перечитав Умови використання Medics. Уся історія — у

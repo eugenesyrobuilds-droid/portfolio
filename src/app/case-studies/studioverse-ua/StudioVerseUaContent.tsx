@@ -237,7 +237,7 @@ function EnTldr() {
         edits the final text and confirms the send. One person can now send{" "}
         <strong>up to ~100 proposals in 3–4 hours</strong>.
       </p>
-      <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+      <p className="text-accent-700 font-medium">
         Honest framing first: what&apos;s <strong>proven</strong> is throughput — roughly
         ×6.7. Conversion stayed <em>inside</em> its pre-tool range, not above it. So this
         isn&apos;t a story about better conversion; it&apos;s a story about scaling volume{" "}
@@ -265,7 +265,7 @@ function UkTldr() {
         Людина редагує фінальний текст і підтверджує відправку. Тепер одна людина може
         відправити <strong>до ~100 пропозалів за 3–4 години</strong>.
       </p>
-      <p className="font-serif italic text-accent-700 text-[1.05em] leading-snug">
+      <p className="text-accent-700 font-medium">
         Чесна рамка одразу: те, що <strong>доведено</strong> — це пропускна здатність,
         приблизно ×6.7. Конверсія лишилася <em>в межах</em> свого доінструментного
         діапазону, а не вище. Тож це історія не про кращу конверсію, а про масштабування
