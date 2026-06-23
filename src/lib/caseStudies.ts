@@ -4,12 +4,14 @@ export type CaseSlug =
   | "medics-quality-indicators"
   | "tb-module"
   | "studioverse-platform"
+  | "studioverse-ua"
   | "driver-medical-checkups";
 
 export const caseStudyOrder: CaseSlug[] = [
   "medics-quality-indicators",
   "tb-module",
   "studioverse-platform",
+  "studioverse-ua",
   "driver-medical-checkups",
 ];
 
@@ -73,6 +75,26 @@ export const caseStudies: Record<CaseSlug, Record<Locale, CaseSummary>> = {
       subtitle: "SaaS для найму артистів, операцій студій і клієнтських проєктів",
       hook: "37 користувачів, 6 студій, $1 752 виторгу за перший повний місяць. 181 коміт за 7 тижнів.",
       tags: ["B2B SaaS", "AI-інтеграції", "Multi-tenant"],
+      status: "У продакшені",
+      statusVariant: "production",
+    },
+  },
+  "studioverse-ua": {
+    en: {
+      title: "StudioVerse UA",
+      subtitle:
+        "Chrome extension that scores the freelance job feed, drafts custom proposals against a template, and tracks every outcome.",
+      hook: "Manual ceiling was ~15 proposals/day → ~100 in 3–4 hours. ×6.7 throughput, conversion held inside its prior band.",
+      tags: ["Lead generation", "Chrome Extension", "AI-assisted dev"],
+      status: "Production",
+      statusVariant: "production",
+    },
+    uk: {
+      title: "StudioVerse UA",
+      subtitle:
+        "Chrome-розширення, яке оцінює фриланс-видачу, готує кастомні пропозали за шаблоном і веде облік кожного результату.",
+      hook: "Ручна стеля ~15 пропозалів/день → ~100 за 3–4 години. ×6.7 пропускної без обвалу якості.",
+      tags: ["Лідогенерація", "Розширення Chrome", "AI-розробка"],
       status: "У продакшені",
       statusVariant: "production",
     },

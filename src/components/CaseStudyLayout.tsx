@@ -8,6 +8,7 @@ import ReadingProgressBar from "./ReadingProgressBar";
 import BackToTop from "./BackToTop";
 import ReadNext from "./ReadNext";
 import FadeIn from "./FadeIn";
+import PrefaceNote from "./PrefaceNote";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 import type { CaseSlug } from "@/lib/caseStudies";
 
@@ -20,6 +21,7 @@ type Props = {
   tags: string[];
   tldr: string | React.ReactNode;
   metaLine?: string;
+  prefaceNote?: React.ReactNode;
   readingTimeMin?: number;
   children: React.ReactNode;
 };
@@ -45,6 +47,7 @@ export default function CaseStudyLayout({
   tags,
   tldr,
   metaLine,
+  prefaceNote,
   readingTimeMin,
   children,
 }: Props) {
@@ -91,6 +94,7 @@ export default function CaseStudyLayout({
                   {metaLine}
                 </p>
               )}
+              {prefaceNote && <PrefaceNote>{prefaceNote}</PrefaceNote>}
             </div>
           </div>
         </header>
