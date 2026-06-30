@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import CaseStudyLayout from "@/components/CaseStudyLayout";
+import CaseStudyTabs from "@/components/CaseStudyTabs";
 import SectionHeading from "@/components/SectionHeading";
 import MetricCard from "@/components/MetricCard";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
+import UserStories from "@/components/UserStories";
+import MermaidDiagram from "@/components/MermaidDiagram";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { proposalGenerationFlow } from "@/data/studioverseUaMermaid";
 
 const screenshots = {
   en: {
@@ -38,6 +42,9 @@ const copy = {
     statusVariant: "production" as const,
     prefaceNote:
       "Note on the platform: I keep the marketplace unnamed throughout. The terms it uses — proposals, connects, cover letters — make it obvious to anyone in this line of work, which is the only audience this case study is for.",
+    tabs: { business: "Business", engineering: "Engineering" },
+    diagramCaption:
+      "End-to-end proposal generation pipeline. Drag to pan · scroll to zoom · double-click to reset · fullscreen for the full picture.",
     section: {
       context: "Context",
       solution: "Solution",
@@ -47,6 +54,8 @@ const copy = {
       learned: "What I learned",
       limitations: "Limitations",
       next: "Next steps",
+      userStories: "User stories",
+      diagram: "Proposal generation flow",
     },
     metrics: {
       manualCeiling: { label: "Manual ceiling", value: "~15", delta: "proposals / day" },
@@ -105,6 +114,9 @@ const copy = {
     statusVariant: "production" as const,
     prefaceNote:
       "Про платформу: я навмисно ніде не називаю маркетплейс. Терміни, якими він оперує — пропозали, конекти, cover letters — і так роблять його очевидним для будь-кого в цій сфері, а саме ця аудиторія цей кейс і читає.",
+    tabs: { business: "Бізнес", engineering: "Інженерія" },
+    diagramCaption:
+      "Повний пайплайн генерації пропозалу. Перетягуйте для панорамування · колесо для зуму · подвійний клік — скидання · fullscreen для повної картини.",
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -114,6 +126,8 @@ const copy = {
       learned: "Чого я навчився",
       limitations: "Обмеження",
       next: "Наступні кроки",
+      userStories: "Користувацькі історії",
+      diagram: "Потік генерації пропозалу",
     },
     metrics: {
       manualCeiling: { label: "Ручна стеля", value: "~15", delta: "пропозалів / день" },
@@ -168,6 +182,18 @@ const copy = {
 export default function StudioVerseUaContent() {
   const { locale } = useLocale();
   const c = copy[locale];
+  const isEn = locale === "en";
+
+  const businessContent = isEn ? (
+    <EnBusinessBody c={copy.en} />
+  ) : (
+    <UkBusinessBody c={copy.uk} />
+  );
+  const engineeringContent = isEn ? (
+    <EnEngineeringBody c={copy.en} />
+  ) : (
+    <UkEngineeringBody c={copy.uk} />
+  );
 
   return (
     <CaseStudyLayout
@@ -179,9 +205,18 @@ export default function StudioVerseUaContent() {
       tags={c.tags}
       readingTimeMin={10}
       prefaceNote={c.prefaceNote}
-      tldr={locale === "en" ? <EnTldr /> : <UkTldr />}
+      tldr={isEn ? <EnTldr /> : <UkTldr />}
     >
-      {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
+      <CaseStudyTabs
+        tabs={[
+          { id: "business", label: c.tabs.business, content: businessContent },
+          {
+            id: "engineering",
+            label: c.tabs.engineering,
+            content: engineeringContent,
+          },
+        ]}
+      />
     </CaseStudyLayout>
   );
 }
@@ -287,7 +322,7 @@ function MetricsBlock({ c }: { c: typeof copy.en | typeof copy.uk }) {
   );
 }
 
-function EnBody({ c }: { c: typeof copy.en }) {
+function EnBusinessBody({ c }: { c: typeof copy.en }) {
   return (
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
@@ -389,8 +424,9 @@ function EnBody({ c }: { c: typeof copy.en }) {
         <strong>the opener for each job has to be maximally custom.</strong> A generic
         opener loses here. My approach is to look at each job from three angles, write
         an opener variant from each, and then pick the best one. (The mechanism that
-        scores and picks between the three is implementation — see <em>How this was
-        built</em> for where my decisions end and the AI&apos;s work begins.)
+        scores and picks between the three is implementation — see the{" "}
+        <strong>Engineering</strong> tab for where my decisions end and the AI&apos;s
+        work begins.)
       </p>
 
       <SectionHeading>{c.section.impact}</SectionHeading>
@@ -441,25 +477,6 @@ function EnBody({ c }: { c: typeof copy.en }) {
         yet fold the AI API cost into that, so our true CAC is incomplete. More in{" "}
         <em>Limitations</em>.
       </p>
-
-      <SectionHeading>{c.section.tech}</SectionHeading>
-      <p>
-        Vanilla JavaScript (ES2020+), no framework, no build step, no test suite. Chrome
-        Extension Manifest V3. <strong>~10,500 lines across 18 source files.</strong>
-      </p>
-      <TechStack groups={c.techGroups} />
-      <p>
-        Architecturally, roughly a third of the codebase (the scoring engine, the
-        opener-prompt builders, the portfolio/reference data) is pure logic with no DOM
-        dependency and would port elsewhere; the other two-thirds is bound to the
-        platform&apos;s DOM and to Chrome&apos;s extension APIs.
-      </p>
-
-      <ProcessNote
-        ownership={c.process.ownership}
-        collaboration={c.process.collaboration}
-        timeSpent={c.process.timeSpent}
-      />
 
       <SectionHeading>{c.section.learned}</SectionHeading>
       <ul>
@@ -539,7 +556,49 @@ function EnBody({ c }: { c: typeof copy.en }) {
   );
 }
 
-function UkBody({ c }: { c: typeof copy.uk }) {
+function EnEngineeringBody({ c }: { c: typeof copy.en }) {
+  return (
+    <>
+      <SectionHeading>{c.section.tech}</SectionHeading>
+      <p>
+        Vanilla JavaScript (ES2020+), no framework, no build step, no test suite. Chrome
+        Extension Manifest V3. <strong>~10,500 lines across 18 source files.</strong>
+      </p>
+      <TechStack groups={c.techGroups} />
+      <p>
+        Architecturally, roughly a third of the codebase (the scoring engine, the
+        opener-prompt builders, the portfolio/reference data) is pure logic with no DOM
+        dependency and would port elsewhere; the other two-thirds is bound to the
+        platform&apos;s DOM and to Chrome&apos;s extension APIs.
+      </p>
+
+      <ProcessNote
+        ownership={c.process.ownership}
+        collaboration={c.process.collaboration}
+        timeSpent={c.process.timeSpent}
+      />
+
+      <SectionHeading>{c.section.diagram}</SectionHeading>
+      <p>
+        The pipeline below is what runs when an operator clicks{" "}
+        <em>Generate proposal</em> on a job page. Decisions in blue, AI steps in amber,
+        storage in green, terminals in red, and the four letter templates stacked
+        vertically at the end.
+      </p>
+      <MermaidDiagram code={proposalGenerationFlow} caption={c.diagramCaption} />
+
+      <SectionHeading>{c.section.userStories}</SectionHeading>
+      <p>
+        Connextra format with MoSCoW priorities. The set below is the working spec the
+        extension was built against — 43 stories across 5 epics, each with acceptance
+        criteria.
+      </p>
+      <UserStories />
+    </>
+  );
+}
+
+function UkBusinessBody({ c }: { c: typeof copy.uk }) {
   return (
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
@@ -640,7 +699,7 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         Загальний опенер тут програє. Мій підхід — подивитися на кожну джобу з трьох
         кутів, написати варіант опенера з кожного, а потім обрати найкращий. (Механізм,
         що оцінює й обирає між трьома — це реалізація; де закінчуються мої рішення й
-        починається робота ІІ, описано в розділі «Як це будувалося».)
+        починається робота ІІ, описано на вкладці <strong>Інженерія</strong>.)
       </p>
 
       <SectionHeading>{c.section.impact}</SectionHeading>
@@ -693,25 +752,6 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         <strong>ще не</strong> включаю в це вартість API ІІ, тож наш справжній CAC
         неповний. Докладніше — в <em>Обмеженнях</em>.
       </p>
-
-      <SectionHeading>{c.section.tech}</SectionHeading>
-      <p>
-        Чистий JavaScript (ES2020+), без фреймворку, без білд-кроку, без тестів. Chrome
-        Extension Manifest V3. <strong>~10 500 рядків у 18 файлах.</strong>
-      </p>
-      <TechStack groups={c.techGroups} />
-      <p>
-        Архітектурно приблизно третина кодової бази (рушій скорингу, білдери промптів
-        опенера, дані портфоліо) — це чиста логіка без залежності від DOM, яка
-        перенеслася б деінде; інші дві третини прив&apos;язані до DOM платформи й до
-        API розширень Chrome.
-      </p>
-
-      <ProcessNote
-        ownership={c.process.ownership}
-        collaboration={c.process.collaboration}
-        timeSpent={c.process.timeSpent}
-      />
 
       <SectionHeading>{c.section.learned}</SectionHeading>
       <ul>
@@ -786,6 +826,47 @@ function UkBody({ c }: { c: typeof copy.uk }) {
           Включити вартість ІІ в CAC, для чесної юніт-економіки на кожен лід.
         </li>
       </ul>
+    </>
+  );
+}
+
+function UkEngineeringBody({ c }: { c: typeof copy.uk }) {
+  return (
+    <>
+      <SectionHeading>{c.section.tech}</SectionHeading>
+      <p>
+        Чистий JavaScript (ES2020+), без фреймворку, без білд-кроку, без тестів. Chrome
+        Extension Manifest V3. <strong>~10 500 рядків у 18 файлах.</strong>
+      </p>
+      <TechStack groups={c.techGroups} />
+      <p>
+        Архітектурно приблизно третина кодової бази (рушій скорингу, білдери промптів
+        опенера, дані портфоліо) — це чиста логіка без залежності від DOM, яка
+        перенеслася б деінде; інші дві третини прив&apos;язані до DOM платформи й до
+        API розширень Chrome.
+      </p>
+
+      <ProcessNote
+        ownership={c.process.ownership}
+        collaboration={c.process.collaboration}
+        timeSpent={c.process.timeSpent}
+      />
+
+      <SectionHeading>{c.section.diagram}</SectionHeading>
+      <p>
+        Нижче — пайплайн, який запускається, коли оператор натискає{" "}
+        <em>Generate proposal</em> на сторінці джоби. Рішення показані синім,
+        AI-кроки — бурштиновим, сховище — зеленим, термінальні стани — червоним, чотири
+        шаблони листів складені вертикально внизу.
+      </p>
+      <MermaidDiagram code={proposalGenerationFlow} caption={c.diagramCaption} />
+
+      <SectionHeading>{c.section.userStories}</SectionHeading>
+      <p>
+        Формат Connextra з пріоритетами MoSCoW. Нижче — робоча специфікація, проти якої
+        будувалося розширення: 43 історії в 5 епіках, кожна з критеріями приймання.
+      </p>
+      <UserStories />
     </>
   );
 }

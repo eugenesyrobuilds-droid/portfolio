@@ -13,9 +13,10 @@ export default function CaseStudyTOC() {
   useEffect(() => {
     const container = document.querySelector("[data-case-study-prose]");
     if (!container) return;
-    // wait one frame so prose re-renders with new locale before we scan
-    let observer: IntersectionObserver | null = null;
-    const raf = requestAnimationFrame(() => {
+
+    let intersectionObserver: IntersectionObserver | null = null;
+
+    const rescan = () => {
       const headings = Array.from(
         container.querySelectorAll<HTMLHeadingElement>("h2[id]"),
       );
@@ -23,12 +24,21 @@ export default function CaseStudyTOC() {
         id: h.id,
         label: h.textContent ?? "",
       }));
-      setItems(newItems);
+      setItems((prev) => {
+        if (
+          prev.length === newItems.length &&
+          prev.every((p, i) => p.id === newItems[i].id && p.label === newItems[i].label)
+        ) {
+          return prev;
+        }
+        return newItems;
+      });
       setActiveId(headings[0]?.id ?? null);
 
+      intersectionObserver?.disconnect();
       if (headings.length === 0) return;
 
-      observer = new IntersectionObserver(
+      intersectionObserver = new IntersectionObserver(
         (entries) => {
           const visible = entries.filter((e) => e.isIntersecting);
           if (visible.length > 0) {
@@ -40,13 +50,20 @@ export default function CaseStudyTOC() {
         },
         { rootMargin: "-100px 0px -70% 0px", threshold: 0 },
       );
+      headings.forEach((h) => intersectionObserver!.observe(h));
+    };
 
-      headings.forEach((h) => observer!.observe(h));
+    const raf = requestAnimationFrame(rescan);
+
+    const mutationObserver = new MutationObserver(() => {
+      requestAnimationFrame(rescan);
     });
+    mutationObserver.observe(container, { childList: true, subtree: true });
 
     return () => {
       cancelAnimationFrame(raf);
-      observer?.disconnect();
+      mutationObserver.disconnect();
+      intersectionObserver?.disconnect();
     };
   }, [locale]);
 
