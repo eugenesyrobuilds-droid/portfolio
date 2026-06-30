@@ -33,7 +33,6 @@ export type Section = {
 
 export type UserStoriesMeta = {
   intro: { en: string; uk: string };
-  format: { en: string; uk: string };
   personas: {
     en: PersonaCopy[];
     uk: PersonaCopy[];
@@ -69,7 +68,6 @@ export function totalEpics(data: UserStoriesData): number {
 export function getMeta(data: UserStoriesData, locale: Locale) {
   return {
     intro: data.meta.intro[locale],
-    format: data.meta.format[locale],
     personas: data.meta.personas[locale],
     legend: data.meta.legend?.[locale],
   };

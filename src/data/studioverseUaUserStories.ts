@@ -6,12 +6,8 @@ import type {
 
 export const meta: UserStoriesMeta = {
   intro: {
-    en: "A set of user stories describing the functionality of a browser extension for searching, scoring jobs, and generating and tracking proposals on a freelance marketplace.",
-    uk: "Набір користувацьких історій, що описують функціонал браузерного розширення для пошуку, оцінювання джоб, а також генерації та трекінгу пропозалів на фриланс-маркетплейсі.",
-  },
-  format: {
-    en: 'Format: Connextra ("As a… I want… so that…") + Acceptance Criteria. Priorities are assigned using MoSCoW (Must / Should / Could) as a starting suggestion and should be refined with the team.',
-    uk: "Формат: Connextra («Як… я хочу… щоб…») + критерії приймання (Acceptance Criteria). Пріоритети проставлені за MoSCoW (Must / Should / Could) як стартова пропозиція й підлягають уточненню з командою.",
+    en: "User stories per INVEST · Prioritization per MoSCoW",
+    uk: "Юзер стори за INVEST · Пріоритизація за MoSCoW",
   },
   personas: {
     en: [

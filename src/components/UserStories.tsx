@@ -146,8 +146,7 @@ export default function UserStories({ data }: { data: UserStoriesData }) {
   return (
     <div className="not-prose my-10">
       <div className="bg-accent-50 rounded-card p-6 mb-6">
-        <p className="text-body text-ink-800 mb-3">{m.intro}</p>
-        <p className="text-small text-ink-700 mb-4">{m.format}</p>
+        <p className="text-label uppercase text-accent-600 mb-4">{m.intro}</p>
         <div className="space-y-2 mb-4">
           <p className="text-label uppercase text-accent-600">
             {locale === "uk" ? "Персони" : "Personas"}
@@ -163,7 +162,7 @@ export default function UserStories({ data }: { data: UserStoriesData }) {
         {m.legend && (
           <div className="space-y-2">
             <p className="text-label uppercase text-accent-600">
-              {locale === "uk" ? "Легенда вердикту" : "Verdict legend"}
+              {locale === "uk" ? "Легенда" : "Legend"}
             </p>
             <p className="text-small text-ink-800">{m.legend}</p>
           </div>
