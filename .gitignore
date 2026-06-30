@@ -37,7 +37,9 @@ yarn-error.log*
 # personal working drafts (outreach copy, contact info, compliance reasoning, update specs)
 docs/outreach-templates.md
 docs/portfolio-compliance-fixes.md
+docs/Case_Study_StudioVerse_UA.md
 updates/
+projects/
 
 # typescript
 *.tsbuildinfo

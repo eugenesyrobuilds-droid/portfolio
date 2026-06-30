@@ -1,6 +1,6 @@
 export const proposalGenerationFlow = `flowchart TD
    %% =========== MAIN PIPELINE (linear, plain language) ===========
-   Start[User opens an Upwork job<br/>and clicks Generate] --> ReadJob
+   Start[User opens a job<br/>and clicks Generate] --> ReadJob
    ReadJob[Read the job posting from the page<br/>title, description, screening questions, client reviews]
    ReadJob --> CheckCache{Have we already<br/>analyzed this job?}
    CheckCache -->|Yes, reuse it| Score
@@ -26,7 +26,7 @@ export const proposalGenerationFlow = `flowchart TD
    Merge[Bundle the result: letter, screening answers, scores, cost]
    Merge --> SaveLocal[Save the proposal on this device<br/>mark it for backup to Google Sheet]
    SaveLocal --> Sync[Next backup uploads the proposal to Google Sheet<br/>so the team can see it]
-   Sync --> Ready[Ready to send<br/>letter auto-fills when you open Upwork's apply form]
+   Sync --> Ready[Ready to send<br/>letter auto-fills when you open the platform's apply form]
 
    %% =========== QUALITY-CHECK RULES (sidebar legend) ===========
    Quality -.-> QualityRules
@@ -70,7 +70,7 @@ export const proposalGenerationFlow = `flowchart TD
        C5[5. Tools we use, optional, skip if already covered above]
        C6[6. Portfolio + SIGNATURE offer:<br/>free if you do not like it, 50% paid if you do]
        C7[7. Pricing and timing, optional]
-       C8[8. Imperative CTA: book a 15-min Upwork Zoom]
+       C8[8. Imperative CTA: book a 15-min Zoom call]
        C1 --> C2 --> C3 --> C4 --> C5 --> C6 --> C7 --> C8
    end
 

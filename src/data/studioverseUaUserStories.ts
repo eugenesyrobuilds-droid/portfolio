@@ -34,8 +34,8 @@ export type UserStoriesMeta = {
 
 export const meta: UserStoriesMeta = {
   intro: {
-    en: "A set of user stories describing the functionality of a browser extension for searching, scoring jobs, and generating and tracking proposals on Upwork.",
-    uk: "Набір користувацьких історій, що описують функціонал браузерного розширення для пошуку, оцінювання джоб, а також генерації та трекінгу пропозалів на Upwork.",
+    en: "A set of user stories describing the functionality of a browser extension for searching, scoring jobs, and generating and tracking proposals on a freelance marketplace.",
+    uk: "Набір користувацьких історій, що описують функціонал браузерного розширення для пошуку, оцінювання джоб, а також генерації та трекінгу пропозалів на фриланс-маркетплейсі.",
   },
   format: {
     en: 'Format: Connextra ("As a… I want… so that…") + Acceptance Criteria. Priorities are assigned using MoSCoW (Must / Should / Could) as a starting suggestion and should be refined with the team.',
@@ -90,7 +90,7 @@ export const epics: Epic[] = [
             "A “Deep Scan” sidebar is shown on the right of the search results page.",
             "On clicking “Deep scan visible jobs”, the extension opens each card one by one, waits for client data to load, and reads enrichment facts: hire rate, total spent, last viewed, invites, interviewing, screening questions, etc.",
             "For each job it runs an LLM analysis of the description, computes a score, then closes the card panel and moves to the next.",
-            "Cards are processed strictly sequentially (not in parallel) so as not to overload Upwork.",
+            "Cards are processed strictly sequentially (not in parallel) so as not to overload the platform.",
           ],
         },
         uk: {
@@ -101,7 +101,7 @@ export const epics: Epic[] = [
             "На сторінці результатів пошуку праворуч відображається сайдбар «Deep Scan».",
             "За натисканням «Deep scan visible jobs» розширення по черзі відкриває кожну картку, очікує підвантаження клієнтських даних і зчитує enrichment-факти: hire rate, total spent, last viewed, invites, interviewing, screening questions тощо.",
             "Для кожної джоби виконується LLM-аналіз опису, обчислюється score, після чого панель картки закривається й відбувається перехід до наступної.",
-            "Картки обробляються строго послідовно (не паралельно), щоб не перевантажувати Upwork.",
+            "Картки обробляються строго послідовно (не паралельно), щоб не перевантажувати платформу.",
           ],
         },
       },
@@ -602,19 +602,19 @@ export const epics: Epic[] = [
         id: "US-2.13",
         priority: "Must",
         en: {
-          title: "Proceed to submit on Upwork",
+          title: "Proceed to submit on the platform",
           userStory:
-            "As a Lead Gen, I want to proceed to submitting the proposal on Upwork directly from the sidebar, so that I don't have to find the Apply button manually.",
+            "As a Lead Gen, I want to proceed to submitting the proposal on the platform directly from the sidebar, so that I don't have to find the Apply button manually.",
           criteria: [
-            "The “Apply on Upwork →” button saves the current letter text, finds the Apply button on the page, and navigates to the submission page.",
+            "The “Apply →” button saves the current letter text, finds the Apply button on the page, and navigates to the submission page.",
           ],
         },
         uk: {
-          title: "Перехід до надсилання на Upwork",
+          title: "Перехід до надсилання на платформу",
           userStory:
-            "Як лідген, я хочу перейти до надсилання пропозала на Upwork прямо із сайдбара, щоб не шукати кнопку Apply вручну.",
+            "Як лідген, я хочу перейти до надсилання пропозала на платформу прямо із сайдбара, щоб не шукати кнопку Apply вручну.",
           criteria: [
-            "Кнопка «Apply on Upwork →» зберігає поточний текст листа, знаходить на сторінці кнопку Apply й переходить на сторінку надсилання.",
+            "Кнопка «Apply →» зберігає поточний текст листа, знаходить на сторінці кнопку Apply й переходить на сторінку надсилання.",
           ],
         },
       },
@@ -699,7 +699,7 @@ export const epics: Epic[] = [
           userStory:
             "As a Lead Gen, I want the proposal submission to be recorded automatically, so that tracking happens without manual entry.",
           criteria: [
-            "When the Upwork Send/Submit button is clicked, the extension:",
+            "When the platform’s Send/Submit button is clicked, the extension:",
             "records sentAt (submission time);",
             "parses the number of connects spent;",
             "saves the final version of the letter and answers (accounting for manual edits before Send);",
@@ -712,7 +712,7 @@ export const epics: Epic[] = [
           userStory:
             "Як лідген, я хочу щоб надсилання пропозала фіксувалося автоматично, щоб трекінг вівся без ручного введення.",
           criteria: [
-            "При натисканні Upwork-кнопки Send/Submit розширення:",
+            "При натисканні кнопки Send/Submit платформи розширення:",
             "записує sentAt (час надсилання);",
             "парсить кількість витрачених конектів;",
             "зберігає фінальну версію листа й відповідей (з урахуванням ручних правок перед Send);",
@@ -752,17 +752,17 @@ export const epics: Epic[] = [
         id: "US-4.2",
         priority: "Must",
         en: {
-          title: "Refresh statuses from Upwork",
+          title: "Refresh statuses from the platform",
           userStory:
-            "As a Lead Gen, I want to pull current proposal statuses from Upwork, so that viewed/replied tracking stays up to date.",
+            "As a Lead Gen, I want to pull current proposal statuses from the platform, so that viewed/replied tracking stays up to date.",
           criteria: [
             "The “↻ Refresh statuses” button opens the My Proposals page in a new tab, parses Active / Submitted / Replied statuses, and updates the corresponding records (viewed / replied).",
           ],
         },
         uk: {
-          title: "Оновлення статусів з Upwork",
+          title: "Оновлення статусів з платформи",
           userStory:
-            "Як лідген, я хочу підтягувати актуальні статуси пропозалів з Upwork, щоб трекінг viewed/replied був актуальним.",
+            "Як лідген, я хочу підтягувати актуальні статуси пропозалів з платформи, щоб трекінг viewed/replied був актуальним.",
           criteria: [
             "Кнопка «↻ Refresh statuses» відкриває в новій вкладці сторінку My Proposals, парсить статуси Active / Submitted / Replied й оновлює відповідні записи (viewed / replied).",
           ],
@@ -1055,7 +1055,7 @@ export const epics: Epic[] = [
           userStory:
             "As a Lead Gen, I want the fact of submission to be recorded in the background, so that tracking is complete without my involvement.",
           criteria: [
-            "When Send is clicked on Upwork, the record is automatically marked as sent with time, connects, and the final letter text.",
+            "When Send is clicked on the platform, the record is automatically marked as sent with time, connects, and the final letter text.",
           ],
         },
         uk: {
@@ -1063,7 +1063,7 @@ export const epics: Epic[] = [
           userStory:
             "Як лідген, я хочу щоб факт надсилання фіксувався у фоні, щоб трекінг був повним без моєї участі.",
           criteria: [
-            "При натисканні Send в Upwork запис автоматично позначається надісланим із часом, конектами та фінальним текстом листа.",
+            "При натисканні Send на платформі запис автоматично позначається надісланим із часом, конектами та фінальним текстом листа.",
           ],
         },
       },
