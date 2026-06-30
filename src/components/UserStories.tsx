@@ -4,13 +4,15 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 import {
-  epics,
   getMeta,
+  totalEpics,
   totalStories,
   type Epic,
   type Priority,
+  type Section,
+  type UserStoriesData,
   type UserStory,
-} from "@/data/studioverseUaUserStories";
+} from "@/data/userStoriesTypes";
 
 const PRIORITY_STYLE: Record<Priority, string> = {
   Must: "bg-accent-100 text-accent-700",
@@ -27,31 +29,43 @@ function StoryItem({ story }: { story: UserStory }) {
         <span className="font-mono text-[0.7rem] text-ink-500 bg-paper-tint rounded px-1.5 py-0.5">
           {story.id}
         </span>
-        <span
-          className={`text-[0.7rem] uppercase tracking-wider font-semibold rounded-pill px-2 py-0.5 ${PRIORITY_STYLE[story.priority]}`}
-        >
-          {story.priority}
-        </span>
+        {story.priority && (
+          <span
+            className={`text-[0.7rem] uppercase tracking-wider font-semibold rounded-pill px-2 py-0.5 ${PRIORITY_STYLE[story.priority]}`}
+          >
+            {story.priority}
+          </span>
+        )}
         <h4 className="font-heading font-semibold text-ink-900 text-base m-0">
           {copy.title}
         </h4>
       </div>
       <p className="text-body text-ink-800 mb-3">{copy.userStory}</p>
-      <p className="text-label uppercase text-ink-500 mb-2">
-        {locale === "uk" ? "Критерії приймання" : "Acceptance criteria"}
-      </p>
-      <ul className="space-y-1.5 text-small text-ink-700 list-disc pl-5 marker:text-accent-500">
-        {copy.criteria.map((c, i) => (
-          <li key={i}>{c}</li>
-        ))}
-      </ul>
+      {copy.criteria.length > 0 && (
+        <>
+          <p className="text-label uppercase text-ink-500 mb-2">
+            {locale === "uk" ? "Критерії приймання" : "Acceptance criteria"}
+          </p>
+          <ul className="space-y-1.5 text-small text-ink-700 list-disc pl-5 marker:text-accent-500">
+            {copy.criteria.map((c, i) => (
+              <li key={i}>{c}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </li>
   );
 }
 
-function EpicBlock({ epic }: { epic: Epic }) {
+function EpicBlock({
+  epic,
+  defaultOpen = true,
+}: {
+  epic: Epic;
+  defaultOpen?: boolean;
+}) {
   const { locale } = useLocale();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(defaultOpen);
   const epicCopy = epic[locale];
   const storyWord =
     locale === "uk"
@@ -94,9 +108,40 @@ function EpicBlock({ epic }: { epic: Epic }) {
   );
 }
 
-export default function UserStories() {
+function SectionBlock({ section }: { section: Section }) {
   const { locale } = useLocale();
-  const m = getMeta(locale);
+  const sectionCopy = section[locale];
+  const totalInSection = section.epics.reduce(
+    (sum, e) => sum + e.stories.length,
+    0,
+  );
+  return (
+    <div className="space-y-3">
+      <div className="flex items-baseline gap-3 mt-8 first:mt-0">
+        <span className="font-mono text-small text-accent-600">
+          {section.number}
+        </span>
+        <h3 className="font-heading font-bold text-h3 text-ink-900 leading-tight m-0">
+          {sectionCopy.title}
+        </h3>
+        <span className="text-label uppercase text-ink-500 ml-auto">
+          {locale === "uk"
+            ? `${totalInSection} історій`
+            : `${totalInSection} stories`}
+        </span>
+      </div>
+      <div className="space-y-3">
+        {section.epics.map((e) => (
+          <EpicBlock key={`${section.number}-${e.number}`} epic={e} defaultOpen={false} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function UserStories({ data }: { data: UserStoriesData }) {
+  const { locale } = useLocale();
+  const m = getMeta(data, locale);
 
   return (
     <div className="not-prose my-10">
@@ -115,24 +160,34 @@ export default function UserStories() {
             ))}
           </ul>
         </div>
-        <div className="space-y-2">
-          <p className="text-label uppercase text-accent-600">
-            {locale === "uk" ? "Легенда вердикту" : "Verdict legend"}
-          </p>
-          <p className="text-small text-ink-800">{m.legend}</p>
-        </div>
+        {m.legend && (
+          <div className="space-y-2">
+            <p className="text-label uppercase text-accent-600">
+              {locale === "uk" ? "Легенда вердикту" : "Verdict legend"}
+            </p>
+            <p className="text-small text-ink-800">{m.legend}</p>
+          </div>
+        )}
         <p className="text-label uppercase text-ink-500 mt-4">
           {locale === "uk"
-            ? `Усього: ${totalStories()} історій у ${epics.length} епіках`
-            : `Total: ${totalStories()} stories across ${epics.length} epics`}
+            ? `Усього: ${totalStories(data)} історій у ${totalEpics(data)} епіках`
+            : `Total: ${totalStories(data)} stories across ${totalEpics(data)} epics`}
         </p>
       </div>
 
-      <div className="space-y-4">
-        {epics.map((e) => (
-          <EpicBlock key={e.number} epic={e} />
-        ))}
-      </div>
+      {data.sections ? (
+        <div className="space-y-4">
+          {data.sections.map((s) => (
+            <SectionBlock key={s.number} section={s} />
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {(data.epics ?? []).map((e) => (
+            <EpicBlock key={e.number} epic={e} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

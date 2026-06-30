@@ -11,6 +11,7 @@ import UserStories from "@/components/UserStories";
 import MermaidDiagram from "@/components/MermaidDiagram";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 import { proposalGenerationFlow } from "@/data/studioverseUaMermaid";
+import { data as uaUserStoriesData } from "@/data/studioverseUaUserStories";
 
 const screenshots = {
   en: {
@@ -593,7 +594,7 @@ function EnEngineeringBody({ c }: { c: typeof copy.en }) {
         extension was built against — 43 stories across 5 epics, each with acceptance
         criteria.
       </p>
-      <UserStories />
+      <UserStories data={uaUserStoriesData} />
     </>
   );
 }
@@ -866,7 +867,7 @@ function UkEngineeringBody({ c }: { c: typeof copy.uk }) {
         Формат Connextra з пріоритетами MoSCoW. Нижче — робоча специфікація, проти якої
         будувалося розширення: 43 історії в 5 епіках, кожна з критеріями приймання.
       </p>
-      <UserStories />
+      <UserStories data={uaUserStoriesData} />
     </>
   );
 }

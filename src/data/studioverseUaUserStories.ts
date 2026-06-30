@@ -1,36 +1,8 @@
-import type { Locale } from "@/lib/i18n/types";
-
-export type Priority = "Must" | "Should" | "Could";
-
-export type StoryCopy = {
-  title: string;
-  userStory: string;
-  criteria: string[];
-};
-
-export type UserStory = {
-  id: string;
-  priority: Priority;
-  en: StoryCopy;
-  uk: StoryCopy;
-};
-
-export type Epic = {
-  number: number;
-  en: { title: string };
-  uk: { title: string };
-  stories: UserStory[];
-};
-
-export type UserStoriesMeta = {
-  intro: { en: string; uk: string };
-  format: { en: string; uk: string };
-  personas: {
-    en: { name: string; description: string }[];
-    uk: { name: string; description: string }[];
-  };
-  legend: { en: string; uk: string };
-};
+import type {
+  Epic,
+  UserStoriesData,
+  UserStoriesMeta,
+} from "./userStoriesTypes";
 
 export const meta: UserStoriesMeta = {
   intro: {
@@ -1071,15 +1043,4 @@ export const epics: Epic[] = [
   },
 ];
 
-export function getMeta(locale: Locale) {
-  return {
-    intro: meta.intro[locale],
-    format: meta.format[locale],
-    personas: meta.personas[locale],
-    legend: meta.legend[locale],
-  };
-}
-
-export function totalStories(): number {
-  return epics.reduce((sum, e) => sum + e.stories.length, 0);
-}
+export const data: UserStoriesData = { meta, epics };

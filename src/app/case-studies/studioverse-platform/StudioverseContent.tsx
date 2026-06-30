@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import CaseStudyLayout from "@/components/CaseStudyLayout";
+import CaseStudyTabs from "@/components/CaseStudyTabs";
 import SectionHeading from "@/components/SectionHeading";
 import MetricCard from "@/components/MetricCard";
 import TechStack from "@/components/TechStack";
 import ProcessNote from "@/components/ProcessNote";
 import PullQuote from "@/components/PullQuote";
+import UserStories from "@/components/UserStories";
+import MermaidDiagram from "@/components/MermaidDiagram";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { orderToDeliveryFlow } from "@/data/studioverseBetaMermaid";
+import { data as betaUserStoriesData } from "@/data/studioverseBetaUserStories";
 
 const screenshot = {
   en: "Studio dashboard with project kanban.",
@@ -24,6 +29,9 @@ const copy = {
     statusVariant: "production" as const,
     tldr:
       "An AI video production agency was managing hiring, project intake, and operations across Slack threads, Google Forms, and spreadsheets. I designed and built a multi-tenant SaaS platform that consolidated the workflow: AI-driven test-assignment matching, AI order intake chatbot, multi-tenant studios with capability-based permissions, real-time chat, project kanban, client portal, audit trail. In 7 weeks of development: 181 commits, 6 studios, 37 users across 5 roles, 22 projects, 60 tasks. First full revenue month produced $1,752 in client revenue with 59% gross margin. Built as the sole engineer through AI-assisted development.",
+    tabs: { business: "Business", engineering: "Engineering" },
+    diagramCaption:
+      "Order-to-delivery flow — visitor → AI brief → studio accept → auto-provisioned project + client account. Drag to pan · scroll to zoom · double-click to reset · fullscreen for the full picture.",
     section: {
       context: "Context",
       solution: "Solution",
@@ -31,6 +39,8 @@ const copy = {
       tech: "Tech stack & architecture",
       learned: "What I learned",
       next: "Next steps",
+      diagram: "Order-to-delivery flow",
+      userStories: "User stories",
     },
     metrics: {
       users: { label: "Users", value: "37", delta: "across 5 roles" },
@@ -81,6 +91,9 @@ const copy = {
     statusVariant: "production" as const,
     tldr:
       "Агенція AI-відеопродакшену вела найм, прийом замовлень і операції в перемішку зі Slack-тредами, Google Forms і таблицями. Я спроєктував і побудував multi-tenant SaaS-платформу, яка консолідувала воркфлоу: AI-матчинг тестових завдань, AI-чатбот прийому замовлень, multi-tenant студії з permissions на основі capabilities, real-time чат, канбан проєктів, клієнтський портал, аудит-лог. За 7 тижнів розробки: 181 коміт, 6 студій, 37 користувачів у 5 ролях, 22 проєкти, 60 задач. Перший повний місяць виторгу дав $1 752 клієнтського виторгу при валовій маржі 59%. Збудовано як єдиним інженером через AI-розробку.",
+    tabs: { business: "Бізнес", engineering: "Інженерія" },
+    diagramCaption:
+      "Флоу від замовлення до доставки — відвідувач → AI-бриф → accept директора → авто-створення проєкту й клієнтського акаунта. Перетягуйте для панорамування · колесо для зуму · подвійний клік — скидання · fullscreen для повної картини.",
     section: {
       context: "Контекст",
       solution: "Рішення",
@@ -88,6 +101,8 @@ const copy = {
       tech: "Технології та архітектура",
       learned: "Що я зрозумів",
       next: "Що далі",
+      diagram: "Флоу від замовлення до доставки",
+      userStories: "Користувацькі історії",
     },
     metrics: {
       users: { label: "Користувачі", value: "37", delta: "у 5 ролях" },
@@ -134,6 +149,18 @@ const copy = {
 export default function StudioverseContent() {
   const { locale } = useLocale();
   const c = copy[locale];
+  const isEn = locale === "en";
+
+  const businessContent = isEn ? (
+    <EnBusinessBody c={copy.en} />
+  ) : (
+    <UkBusinessBody c={copy.uk} />
+  );
+  const engineeringContent = isEn ? (
+    <EnEngineeringBody c={copy.en} />
+  ) : (
+    <UkEngineeringBody c={copy.uk} />
+  );
 
   return (
     <CaseStudyLayout
@@ -144,9 +171,14 @@ export default function StudioverseContent() {
       statusVariant={c.statusVariant}
       tags={c.tags}
       tldr={c.tldr}
-      readingTimeMin={11}
+      readingTimeMin={14}
     >
-      {locale === "en" ? <EnBody c={c} /> : <UkBody c={c} />}
+      <CaseStudyTabs
+        tabs={[
+          { id: "business", label: c.tabs.business, content: businessContent },
+          { id: "engineering", label: c.tabs.engineering, content: engineeringContent },
+        ]}
+      />
     </CaseStudyLayout>
   );
 }
@@ -197,7 +229,7 @@ function MetricsBlock({ c }: { c: typeof copy.en | typeof copy.uk }) {
   );
 }
 
-function EnBody({ c }: { c: typeof copy.en }) {
+function EnBusinessBody({ c }: { c: typeof copy.en }) {
   return (
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
@@ -283,14 +315,6 @@ function EnBody({ c }: { c: typeof copy.en }) {
         <li>Test assignment library</li>
       </ul>
 
-      <p>
-        The role and permission model is capability-based with per-studio scoping. A user
-        can hold multiple roles simultaneously — e.g., studio director of Studio A and
-        artist in Studio B — with an &quot;Acting As&quot; switcher in the header. Studio
-        directors see candidates and projects scoped to their studio; platform owner
-        bypasses all scope checks.
-      </p>
-
       <ScreenshotFigure />
 
       <SectionHeading>{c.section.impact}</SectionHeading>
@@ -299,35 +323,10 @@ function EnBody({ c }: { c: typeof copy.en }) {
         Positive unit economics confirmed in the first month of revenue. The platform went
         from MVP to operational revenue in 7 weeks of solo build.
       </p>
-      <p>
-        <strong>Engineering throughput</strong>: 181 commits across the 7-week build period.
-        Auto-deploy to production on every push to <code>main</code>. Test infrastructure
-        included Vitest for unit tests, Playwright for E2E, with a parallel test schema in
-        Supabase for isolated runs.
-      </p>
 
       <PullQuote>
         A 7-week build is a different category of project from a 7-month build.
       </PullQuote>
-
-      <SectionHeading>{c.section.tech}</SectionHeading>
-      <TechStack groups={c.techGroups} />
-      <p>
-        The role/permission system warrants its own note. Roles live in <code>users.role</code>:{" "}
-        <code>platform_owner</code>, <code>studio_director</code>, <code>studio_manager</code>,{" "}
-        <code>artist</code>, <code>client</code>. An artist can additionally be{" "}
-        <code>is_evaluator=true</code>. A user can hold multiple capabilities simultaneously
-        — for example a studio director in Studio A who is also an artist in Studio B — and
-        switch context via an &quot;Acting As&quot; toggle. Permissions are derived: a
-        studio director sees pipeline candidates only for studios where they&apos;re
-        director; a studio manager sees projects only for studios they&apos;re in.
-      </p>
-
-      <ProcessNote
-        ownership={c.process.ownership}
-        collaboration={c.process.collaboration}
-        timeSpent={c.process.timeSpent}
-      />
 
       <SectionHeading>{c.section.learned}</SectionHeading>
       <ul>
@@ -399,12 +398,60 @@ function EnBody({ c }: { c: typeof copy.en }) {
   );
 }
 
-function UkBody({ c }: { c: typeof copy.uk }) {
+function EnEngineeringBody({ c }: { c: typeof copy.en }) {
+  return (
+    <>
+      <SectionHeading>{c.section.tech}</SectionHeading>
+      <p>
+        <strong>Engineering throughput</strong>: 181 commits across a 7-week build period.
+        Auto-deploy to production on every push to <code>main</code>. Test infrastructure
+        includes Vitest for unit tests, Playwright for E2E, with a parallel test schema in
+        Supabase for isolated runs.
+      </p>
+      <TechStack groups={c.techGroups} />
+      <p>
+        The role/permission system warrants its own note. Roles live in <code>users.role</code>:{" "}
+        <code>platform_owner</code>, <code>studio_director</code>, <code>studio_manager</code>,{" "}
+        <code>artist</code>, <code>client</code>. An artist can additionally be{" "}
+        <code>is_evaluator=true</code>. A user can hold multiple capabilities simultaneously
+        — for example a studio director in Studio A who is also an artist in Studio B — and
+        switch context via an &quot;Acting As&quot; toggle. Permissions are derived: a
+        studio director sees pipeline candidates only for studios where they&apos;re
+        director; a studio manager sees projects only for studios they&apos;re in.
+      </p>
+
+      <ProcessNote
+        ownership={c.process.ownership}
+        collaboration={c.process.collaboration}
+        timeSpent={c.process.timeSpent}
+      />
+
+      <SectionHeading>{c.section.diagram}</SectionHeading>
+      <p>
+        The sequence below is the platform&apos;s longest end-to-end flow: a stranger
+        arriving on the order page becomes a paying client with login credentials and a
+        running project — usually within a few minutes of acceptance.
+      </p>
+      <MermaidDiagram code={orderToDeliveryFlow} caption={c.diagramCaption} />
+
+      <SectionHeading>{c.section.userStories}</SectionHeading>
+      <p>
+        Industry-standard INVEST format. The set below is the complete working spec the
+        platform was built against — 146 stories across 49 epics, grouped by persona
+        (Visitor, Artist, Studio Director, Studio Manager, Artist Evaluator, Platform
+        Owner, Client, and cross-cutting platform concerns). Click an epic to expand.
+      </p>
+      <UserStories data={betaUserStoriesData} />
+    </>
+  );
+}
+
+function UkBusinessBody({ c }: { c: typeof copy.uk }) {
   return (
     <>
       <SectionHeading>{c.section.context}</SectionHeading>
       <p>
-        Агенція AI-відеопродакшену (особа клієнта не розкривається; робота за контрактом) 
+        Агенція AI-відеопродакшену (особа клієнта не розкривається; робота за контрактом)
         працювала через лоскутну ковдру інструментів: заявки артистів
         приходили через розрізнені форми, прийом замовлень від клієнтів — у форматі вільного
         тексту в листах, DM, рішення про найм трекались у таблицях, робота над проєктами
@@ -486,13 +533,6 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         <li>Бібліотека тестових завдань</li>
       </ul>
 
-      <p>
-        Модель ролей і дозволів — capability-based зі скоупом на студію. Користувач може
-        тримати кілька ролей одночасно — наприклад, менеджер студії А і артист у студії Б —
-        з перемикачем «Acting As» у хедері. Директори студій бачать кандидатів і проєкти в
-        межах своїх студій; platform owner обходить усі перевірки скоупу.
-      </p>
-
       <ScreenshotFigure />
 
       <SectionHeading>{c.section.impact}</SectionHeading>
@@ -501,35 +541,10 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         Позитивна юніт-економіка підтверджена в перший місяць виторгу. Платформа пройшла
         шлях від MVP до операційного виторгу за 7 тижнів соло-розробки.
       </p>
-      <p>
-        <strong>Інженерна пропускна здатність</strong>: 181 коміт за 7 тижнів розробки.
-        Auto-deploy у продакшен на кожен push у <code>main</code>. Інфраструктура тестів —
-        Vitest для unit-тестів, Playwright для E2E, плюс паралельна test-схема в Supabase
-        для ізольованих прогонів.
-      </p>
 
       <PullQuote>
         Білд на 7 тижнів — інша категорія проєкту, ніж білд на 7 місяців.
       </PullQuote>
-
-      <SectionHeading>{c.section.tech}</SectionHeading>
-      <TechStack groups={c.techGroups} />
-      <p>
-        Система ролей/дозволів заслуговує окремої нотатки. Ролі живуть у{" "}
-        <code>users.role</code>: <code>platform_owner</code>, <code>studio_director</code>,{" "}
-        <code>studio_manager</code>, <code>artist</code>, <code>client</code>. Артист може
-        додатково бути <code>is_evaluator=true</code>. Користувач може тримати кілька
-        capabilities одночасно — наприклад, менеджер у студії А, який також артист у
-        студії Б — і перемикати контекст через тогл «Acting As». Дозволи виводяться:
-        менеджер студії бачить кандидатів пайплайну лише в студіях, де він менеджер;
-        studio-менеджер бачить проєкти лише в студіях, до яких він входить.
-      </p>
-
-      <ProcessNote
-        ownership={c.process.ownership}
-        collaboration={c.process.collaboration}
-        timeSpent={c.process.timeSpent}
-      />
 
       <SectionHeading>{c.section.learned}</SectionHeading>
       <ul>
@@ -594,6 +609,55 @@ function UkBody({ c }: { c: typeof copy.uk }) {
         кодова база стає переносимим артефактом для інших агенцій зі схожими операційними
         патернами.
       </p>
+    </>
+  );
+}
+
+function UkEngineeringBody({ c }: { c: typeof copy.uk }) {
+  return (
+    <>
+      <SectionHeading>{c.section.tech}</SectionHeading>
+      <p>
+        <strong>Інженерна пропускна здатність</strong>: 181 коміт за 7 тижнів розробки.
+        Auto-deploy у продакшен на кожен push у <code>main</code>. Інфраструктура тестів —
+        Vitest для unit-тестів, Playwright для E2E, плюс паралельна test-схема в Supabase
+        для ізольованих прогонів.
+      </p>
+      <TechStack groups={c.techGroups} />
+      <p>
+        Система ролей/дозволів заслуговує окремої нотатки. Ролі живуть у{" "}
+        <code>users.role</code>: <code>platform_owner</code>, <code>studio_director</code>,{" "}
+        <code>studio_manager</code>, <code>artist</code>, <code>client</code>. Артист може
+        додатково бути <code>is_evaluator=true</code>. Користувач може тримати кілька
+        capabilities одночасно — наприклад, менеджер у студії А, який також артист у
+        студії Б — і перемикати контекст через тогл «Acting As». Дозволи виводяться:
+        менеджер студії бачить кандидатів пайплайну лише в студіях, де він менеджер;
+        studio-менеджер бачить проєкти лише в студіях, до яких він входить.
+      </p>
+
+      <ProcessNote
+        ownership={c.process.ownership}
+        collaboration={c.process.collaboration}
+        timeSpent={c.process.timeSpent}
+      />
+
+      <SectionHeading>{c.section.diagram}</SectionHeading>
+      <p>
+        Послідовність нижче — найдовший end-to-end флоу платформи: незнайомець на сторінці
+        замовлення стає платним клієнтом з обліковими даними й запущеним проєктом —
+        зазвичай протягом кількох хвилин після accept.
+      </p>
+      <MermaidDiagram code={orderToDeliveryFlow} caption={c.diagramCaption} />
+
+      <SectionHeading>{c.section.userStories}</SectionHeading>
+      <p>
+        Галузевий стандартний INVEST-формат. Набір нижче — повна робоча специфікація, під
+        яку будувалась платформа: 146 історій у 49 епіках, згрупованих по персонах
+        (Відвідувач, Артист, Директор студії, Менеджер студії, Артист-оцінювач, Власник
+        платформи, Клієнт і платформенні наскрізні функції). Клікніть епік, щоб
+        розгорнути.
+      </p>
+      <UserStories data={betaUserStoriesData} />
     </>
   );
 }
